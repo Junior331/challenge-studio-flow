@@ -21,40 +21,94 @@ type ProductionAction =
   | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'SET_ERROR'; payload: string | null };
 
-const initialState: ProductionState = {
-  productions: [],
-  selectedProduction: null,
-  isLoading: false,
-  error: null,
+const COOKIE_NAME = 'selected_production';
+const COOKIE_OPTIONS = {
+  path: '/',
+  secure: true,
+  sameSite: 'strict' as const,
+  maxAge: 24 * 60 * 60, // 24 horas
 };
 
+const loadState = (): ProductionState => {
+  try {
+    const cookies = document.cookie.split(';');
+    const selectedProductionCookie = cookies.find((cookie) =>
+      cookie.trim().startsWith(`${COOKIE_NAME}=`),
+    );
+
+    if (selectedProductionCookie) {
+      const selectedProduction = JSON.parse(
+        decodeURIComponent(selectedProductionCookie.split('=')[1]),
+      );
+      return {
+        productions: [],
+        selectedProduction,
+        isLoading: false,
+        error: null,
+      };
+    }
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error loading production state:', error);
+  }
+  return {
+    productions: [],
+    selectedProduction: null,
+    isLoading: false,
+    error: null,
+  };
+};
+
+const initialState: ProductionState = loadState();
+
 function productionReducer(state: ProductionState, action: ProductionAction): ProductionState {
+  let newState: ProductionState;
+
   switch (action.type) {
     case 'SET_PRODUCTIONS':
-      return {
+      newState = {
         ...state,
         productions: action.payload,
         error: null,
       };
+      break;
     case 'SELECT_PRODUCTION':
-      return {
+      newState = {
         ...state,
         selectedProduction: action.payload,
       };
+      // Atualiza o cookie quando a produção é selecionada
+      if (action.payload) {
+        document.cookie = `${COOKIE_NAME}=${encodeURIComponent(JSON.stringify(action.payload))}; ${Object.entries(
+          COOKIE_OPTIONS,
+        )
+          .map(([key, value]) => `${key}=${value}`)
+          .join('; ')}`;
+      } else {
+        // Remove o cookie quando a produção é desselecionada
+        document.cookie = `${COOKIE_NAME}=; ${Object.entries({ ...COOKIE_OPTIONS, maxAge: 0 })
+          .map(([key, value]) => `${key}=${value}`)
+          .join('; ')}`;
+      }
+      break;
     case 'SET_LOADING':
-      return {
+      newState = {
         ...state,
         isLoading: action.payload,
       };
+      break;
     case 'SET_ERROR':
-      return {
+      newState = {
         ...state,
         error: action.payload,
         isLoading: false,
       };
+      break;
     default:
       return state;
   }
+
+  return newState;
 }
 
 interface ProductionContextType extends ProductionState {

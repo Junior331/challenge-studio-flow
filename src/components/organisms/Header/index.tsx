@@ -1,12 +1,16 @@
 import { useScenes } from '../../../contexts/scenes';
+import { useProduction } from '../../../hooks/useProduction';
 import { Button } from '../../atoms/Button';
 import { Input } from '../../atoms/Input';
 import { type SceneDetails } from '../../molecules/Modal/@types';
 
 export function Header() {
   const { scenes, createScene } = useScenes();
+  const { selectedProduction } = useProduction();
 
   const handleCreateScene = async () => {
+    if (!selectedProduction) return;
+
     const newScene: SceneDetails = {
       id: (scenes.length + 1).toString(),
       title: 'Nova Cena',
@@ -29,7 +33,7 @@ export function Header() {
 
       <div className='flex items-center gap-2 grow justify-center max-w-xl'>
         <Input placeholder='Pesquisar' className='grow' />
-        <Button variant='default' onClick={handleCreateScene}>
+        <Button variant='default' onClick={handleCreateScene} disabled={!selectedProduction}>
           Criar
         </Button>
       </div>
