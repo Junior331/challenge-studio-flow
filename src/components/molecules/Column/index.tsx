@@ -1,29 +1,50 @@
 import { useDroppable } from '@dnd-kit/core';
 
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../utils/cn';
 import { type ColumnProps } from './@types';
 
 export function Column({ id, step, label, count, children }: ColumnProps) {
-  const { setNodeRef } = useDroppable({
+  const { setNodeRef, active } = useDroppable({
     id,
     data: {
       step,
     },
   });
 
+  if (!active) {
+    return (
+      <div
+        ref={setNodeRef}
+        className='flex flex-col gap-1 p-1.5 bg-secondary rounded-lg border border-border w-72 min-w-[16rem] max-w-xs h-fit'
+      >
+        <div className='flex items-center justify-between'>
+          <h3 className='text-sm font-medium text-foreground'>{label}</h3>
+          <span className='text-sm text-muted-foreground'>{count}</span>
+        </div>
+
+        <div className='flex flex-col gap-2 p-2 min-h-[200px] rounded-lg border border-border bg-background/50'>
+          {children}
+        </div>
+      </div>
+    );
+  }
+
+  const isNextStep = active.data.current?.step === step - 1;
+
   return (
-    <div className='flex flex-col gap-4 min-w-[300px]'>
+    <div
+      ref={setNodeRef}
+      className={cn(
+        'flex flex-col gap-1 p-1.5 bg-secondary rounded-lg border border-border w-72 min-w-[16rem] max-w-xs h-fit transition-all duration-200',
+        isNextStep ? 'border-primary bg-primary/5 scale-[1.02]' : 'opacity-40 cursor-not-allowed',
+      )}
+    >
       <div className='flex items-center justify-between'>
         <h3 className='text-sm font-medium text-foreground'>{label}</h3>
         <span className='text-sm text-muted-foreground'>{count}</span>
       </div>
 
-      <div
-        ref={setNodeRef}
-        className={cn(
-          'flex flex-col gap-2 p-2 min-h-[200px] rounded-lg border border-border bg-background/50',
-        )}
-      >
+      <div className='flex flex-col gap-2 p-2 min-h-[200px] rounded-lg border border-border bg-background/50'>
         {children}
       </div>
     </div>
