@@ -1,3 +1,5 @@
+import { Plus } from 'lucide-react';
+
 import { useScenes } from '../../../contexts/scenes';
 import { useProduction } from '../../../hooks/useProduction';
 import { Button } from '../../atoms/Button';
@@ -12,14 +14,14 @@ export function Header() {
     if (!selectedProduction) return;
 
     const newScene: SceneDetails = {
-      id: (scenes.length + 1).toString(),
-      title: 'Nova Cena',
-      description: '',
       step: 1,
-      columnId: 'column-1',
       episode: '1',
-      recordDate: new Date().toISOString().split('T')[0],
+      description: '',
+      title: 'Nova Cena',
       recordLocation: '',
+      columnId: 'column-1',
+      id: (scenes.length + 1).toString(),
+      recordDate: new Date().toISOString().split('T')[0],
     };
 
     await createScene(newScene);
@@ -33,13 +35,19 @@ export function Header() {
 
       <div className='flex items-center gap-2 grow justify-center max-w-xl'>
         <Input placeholder='Pesquisar' className='grow' />
-        <Button variant='default' onClick={handleCreateScene} disabled={!selectedProduction}>
-          Criar
+
+        <Button
+          onClick={handleCreateScene}
+          disabled={!selectedProduction}
+          className='h-9 px-4 md:px-6'
+        >
+          <Plus className='h-4 w-4 md:mr-2' />
+          <span className='hidden md:inline'>Criar</span>
         </Button>
       </div>
 
       <div className='flex items-center gap-2'>
-        <span className='text-sm text-muted-foreground'>John Doe</span>
+        <span className='text-sm text-muted-foreground hidden md:block'>John Doe</span>
         <div className='w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-medium'>
           JD
         </div>

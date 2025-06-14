@@ -27,8 +27,8 @@ const navigation = [
 
 export function Sidebar() {
   return (
-    <div className='flex h-full w-64 flex-col border-r border-border bg-background'>
-      <div className='flex h-14 items-center border-b border-border px-4'>
+    <div className='flex h-full max-w-14 w-full md:max-w-64 flex-col border-r border-border bg-background'>
+      <div className='flex h-14 items-center border-b border-border px-0.5 md:px-4'>
         <h2 className='text-lg font-semibold text-foreground'>Menu</h2>
       </div>
       <nav className='flex-1 space-y-1 px-2 py-4'>
@@ -46,7 +46,7 @@ export function Sidebar() {
             }
           >
             {item.icon}
-            {item.name}
+            <span className='hidden md:block'>{item.name}</span>
           </NavLink>
         ))}
       </nav>
