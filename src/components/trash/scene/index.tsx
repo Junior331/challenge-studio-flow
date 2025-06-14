@@ -4,7 +4,7 @@ import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 
 import { type Scene as SceneType } from '../../../reducers/scenes';
-import { Modal } from '../../modal';
+import { Modal } from '../../molecules';
 
 interface SceneProps {
   id: string;

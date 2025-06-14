@@ -1,7 +1,7 @@
 import { useScenes } from '../../../contexts/scenes';
+import { type SceneDetails } from '../../molecules/Modal/@types';
 import { Button } from '../button';
 import { Input } from '../input';
-import { type SceneDetails } from '../../modal';
 
 export function Header() {
   const { scenes, createScene } = useScenes();

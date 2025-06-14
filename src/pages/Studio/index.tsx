@@ -11,11 +11,9 @@ import {
 } from '@dnd-kit/core';
 import { ArrowLeftIcon, PlayIcon } from 'lucide-react';
 
-import { Button } from '../../components/trash/button';
-import { Card } from '../../components/trash/card';
-import { Column } from '../../components/trash/column';
-import { Scene, type SceneProps } from '../../components/trash/scene';
-import Title from '../../components/title';
+import { Button, Title } from '../../components/atoms';
+import { Card, Column, Scene } from '../../components/molecules';
+import { type SceneProps } from '../../components/molecules/Scene/@types';
 import { useScenes } from '../../contexts/scenes';
 import { useProduction } from '../../hooks/useProduction';
 import { type Scene as SceneDetails } from '../../reducers/scenes';
@@ -105,14 +103,14 @@ const Studio = () => {
   }
 
   return (
-    <div className='w-full bg-background p-4 flex flex-col gap-4 h-full'>
+    <div className='w-full bg-background p-2 flex flex-col gap-4 h-full'>
       <div className='flex items-center gap-4'>
         <Button variant='outline' size='icon' onClick={() => deselectProduction()}>
           <ArrowLeftIcon />
         </Button>
         <Title />
       </div>
-      <div className='flex gap-4 overflow-x-auto w-full h-full'>
+      <div className='flex gap-4 overflow-x-auto w-full h-full pr-2'>
         <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} sensors={sensors}>
           <DragOverlay>{activeScene ? <Scene {...activeScene} /> : null}</DragOverlay>
           {[1, 2, 3, 4, 5].map((step) => (

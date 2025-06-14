@@ -1,7 +1,6 @@
-import {Outlet} from "react-router-dom"
+import { Outlet } from 'react-router-dom';
 
-import {Header} from "../trash/header"
-import {Sidebar} from "../sidebar"
+import { Header, Sidebar } from '../../organisms';
 
 export function Layout() {
   return (
@@ -14,5 +13,5 @@ export function Layout() {
         </main>
       </div>
     </div>
-  )
+  );
 }

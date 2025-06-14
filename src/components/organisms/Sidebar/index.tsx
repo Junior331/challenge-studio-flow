@@ -1,11 +1,11 @@
-import {NavLink} from "react-router-dom"
+import { NavLink } from 'react-router-dom';
 
-import {cn} from "../../utils/cn"
+import { cn } from '../../../utils/cn';
 
 const navigation = [
   {
-    name: "Studio",
-    href: "/",
+    name: 'Studio',
+    href: '/',
     icon: (
       <svg
         xmlns='http://www.w3.org/2000/svg'
@@ -21,9 +21,9 @@ const navigation = [
           d='M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25'
         />
       </svg>
-    )
-  }
-]
+    ),
+  },
+];
 
 export function Sidebar() {
   return (
@@ -32,16 +32,16 @@ export function Sidebar() {
         <h2 className='text-lg font-semibold text-foreground'>Menu</h2>
       </div>
       <nav className='flex-1 space-y-1 px-2 py-4'>
-        {navigation.map(item => (
+        {navigation.map((item) => (
           <NavLink
             key={item.name}
             to={item.href}
-            className={({isActive}) =>
+            className={({ isActive }) =>
               cn(
-                "group flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                'group flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors',
                 isActive
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground',
               )
             }
           >
@@ -51,5 +51,5 @@ export function Sidebar() {
         ))}
       </nav>
     </div>
-  )
+  );
 }
