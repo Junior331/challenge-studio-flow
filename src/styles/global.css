@@ -11,15 +11,16 @@
     @apply bg-background text-foreground;
   }
 
-  body*::-webkit-scrollbar {
+  *::-webkit-scrollbar {
     width: 5px !important;
     height: 5px !important;
   }
 
-  body*::-webkit-scrollbar-track {
+  *::-webkit-scrollbar-track {
     background: transparent !important;
   }
-  body*::-webkit-scrollbar-thumb {
+
+  *::-webkit-scrollbar-thumb {
     border-radius: 10px !important;
     background: #c7c6d0 !important;
   }
