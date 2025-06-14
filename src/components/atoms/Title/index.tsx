@@ -1,4 +1,4 @@
-import { useProduction } from '../../hooks/useProduction';
+import { useProduction } from '../../../hooks/useProduction';
 
 const Title = () => {
   const { selectedProduction } = useProduction();
@@ -6,4 +6,4 @@ const Title = () => {
   return <h1 className='text-2xl font-bold text-primary'>{selectedProduction?.name}</h1>;
 };
 
-export default Title;
+export { Title };

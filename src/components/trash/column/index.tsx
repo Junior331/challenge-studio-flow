@@ -2,7 +2,7 @@ import { type ReactNode, useEffect, useState } from 'react';
 
 import { useDroppable } from '@dnd-kit/core';
 
-import { cn } from '../../utils/cn';
+import { cn } from '../../../utils/cn';
 
 interface ColumnProps {
   id: string;

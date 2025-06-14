@@ -1,22 +1,22 @@
-import {RouterProvider, createBrowserRouter} from "react-router-dom"
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import {Layout} from "../components/layout"
-import Studio from "../pages/Studio"
+import { Layout } from '../components/layout';
+import Studio from '../pages/Studio';
 
 const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
       {
-        path: "/",
-        element: <Studio />
-      }
-    ]
-  }
-])
+        path: '/',
+        element: <Studio />,
+      },
+    ],
+  },
+]);
 
 const Routes = () => {
-  return <RouterProvider router={router} />
-}
+  return <RouterProvider router={router} />;
+};
 
-export default Routes
+export default Routes;

@@ -3,8 +3,8 @@ import { useMemo, useState } from 'react';
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 
-import { type Scene as SceneType } from '../../reducers/scenes';
-import { Modal } from '../modal';
+import { type Scene as SceneType } from '../../../reducers/scenes';
+import { Modal } from '../../modal';
 
 interface SceneProps {
   id: string;

@@ -9,16 +9,13 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { ArrowLeftIcon, PlayIcon } from 'lucide-react';
+import { ArrowLeftIcon } from 'lucide-react';
 
-import { Button } from '../../components/trash/button';
-import { Card } from '../../components/trash/card';
-import { Column } from '../../components/trash/column';
-import { Scene, type SceneProps } from '../../components/trash/scene';
-import Title from '../../components/title';
-import { useScenes } from '../../contexts/scenes';
-import { useProduction } from '../../hooks/useProduction';
-import { type Scene as SceneDetails } from '../../reducers/scenes';
+import { useScenes } from '../../../contexts/scenes';
+import { type Scene as SceneDetails } from '../../../reducers/scenes';
+import { Button } from '../../atoms/Button';
+import { Column } from '../../molecules/Column';
+import { Scene, type SceneProps } from '../../molecules/Scene';
 
 const steps: Record<number, string> = {
   1: 'Roteirizado',
@@ -28,8 +25,11 @@ const steps: Record<number, string> = {
   5: 'Finalizado',
 };
 
-const Studio = () => {
-  const { selectedProduction, productions, selectProduction, deselectProduction } = useProduction();
+interface StudioTemplateProps {
+  onBack: () => void;
+}
+
+export function StudioTemplate({ onBack }: StudioTemplateProps) {
   const { scenes, updateScene } = useScenes();
   const [activeScene, setActiveScene] = useState<SceneProps | null>(null);
 
@@ -79,39 +79,15 @@ const Studio = () => {
     }),
   );
 
-  if (!selectedProduction) {
-    return (
-      <div className='w-screen bg-background p-4 flex flex-col gap-4'>
-        <div className='flex flex-wrap gap-4'>
-          {productions.map((production) => (
-            <Card
-              key={production.id}
-              icon={<PlayIcon />}
-              title={production.name}
-              subtitle={production.description}
-              quickLinks={[
-                {
-                  label: 'Ir para produção',
-                  onClick: () => {
-                    selectProduction(production);
-                  },
-                },
-              ]}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className='w-full bg-background p-4 flex flex-col gap-4 h-full'>
       <div className='flex items-center gap-4'>
-        <Button variant='outline' size='icon' onClick={() => deselectProduction()}>
+        <Button variant='outline' size='icon' onClick={onBack}>
           <ArrowLeftIcon />
         </Button>
-        <Title />
+        <h1 className='text-xl font-semibold text-foreground'>StudioFlow</h1>
       </div>
+
       <div className='flex gap-4 overflow-x-auto w-full h-full'>
         <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} sensors={sensors}>
           <DragOverlay>{activeScene ? <Scene {...activeScene} /> : null}</DragOverlay>
@@ -134,6 +110,4 @@ const Studio = () => {
       </div>
     </div>
   );
-};
-
-export default Studio;
+}
