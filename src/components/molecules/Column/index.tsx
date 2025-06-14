@@ -44,7 +44,7 @@ export function Column({ id, step, label, count, children }: ColumnProps) {
         <span className='text-sm text-muted-foreground'>{count}</span>
       </div>
 
-      <div className='flex flex-col gap-2 p-2 min-h-[200px] rounded-lg border border-border bg-background/50'>
+      <div className='flex flex-col gap-2 p-2 min-h-[200px] rounded-lg border border-border bg-background/50 overflow-auto'>
         {children}
       </div>
     </div>
