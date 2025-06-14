@@ -1,13 +1,16 @@
-import {ProductionProvider} from "./contexts/production"
-import Routes from "./routes"
-import "./styles/global.css"
+import { ProductionProvider } from './contexts/production';
+import { ScenesProvider } from './contexts/scenes';
+import Routes from './routes';
+import './styles/global.css';
 
 function App() {
   return (
     <ProductionProvider>
-      <Routes />
+      <ScenesProvider>
+        <Routes />
+      </ScenesProvider>
     </ProductionProvider>
-  )
+  );
 }
 
-export default App
+export default App;

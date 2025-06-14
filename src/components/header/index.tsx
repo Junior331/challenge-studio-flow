@@ -1,7 +1,26 @@
-import {Button} from "../button"
-import {Input} from "../input"
+import { useScenes } from '../../contexts/scenes';
+import { Button } from '../button';
+import { Input } from '../input';
+import { type SceneDetails } from '../modal';
 
 export function Header() {
+  const { scenes, createScene } = useScenes();
+
+  const handleCreateScene = async () => {
+    const newScene: SceneDetails = {
+      id: (scenes.length + 1).toString(),
+      title: 'Nova Cena',
+      description: '',
+      step: 1,
+      columnId: 'column-1',
+      episode: '1',
+      recordDate: new Date().toISOString().split('T')[0],
+      recordLocation: '',
+    };
+
+    await createScene(newScene);
+  };
+
   return (
     <header className='sticky top-0 z-50 flex items-center justify-between w-full gap-8 px-6 py-4 border-b border-border bg-background'>
       <div className='flex items-center gap-12'>
@@ -10,7 +29,9 @@ export function Header() {
 
       <div className='flex items-center gap-2 grow justify-center max-w-xl'>
         <Input placeholder='Pesquisar' className='grow' />
-        <Button variant='default'>Criar</Button>
+        <Button variant='default' onClick={handleCreateScene}>
+          Criar
+        </Button>
       </div>
 
       <div className='flex items-center gap-2'>
@@ -20,5 +41,5 @@ export function Header() {
         </div>
       </div>
     </header>
-  )
+  );
 }

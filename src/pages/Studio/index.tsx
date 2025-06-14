@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useState } from 'react';
 
 import {
   DndContext,
@@ -16,8 +16,9 @@ import { Card } from '../../components/card';
 import { Column } from '../../components/column';
 import { Scene, type SceneProps } from '../../components/scene';
 import Title from '../../components/title';
+import { useScenes } from '../../contexts/scenes';
 import { useProduction } from '../../hooks/useProduction';
-import { type Scene as SceneDetails, initialSceneState, sceneReducer } from '../../reducers/scenes';
+import { type Scene as SceneDetails } from '../../reducers/scenes';
 
 const steps: Record<number, string> = {
   1: 'Roteirizado',
@@ -29,9 +30,7 @@ const steps: Record<number, string> = {
 
 const Studio = () => {
   const { selectedProduction, productions, selectProduction, deselectProduction } = useProduction();
-
-  const [state, dispatch] = useReducer(sceneReducer, initialSceneState);
-
+  const { scenes, updateScene } = useScenes();
   const [activeScene, setActiveScene] = useState<SceneProps | null>(null);
 
   const handleDragStart = (event: DragStartEvent) => {
@@ -53,47 +52,22 @@ const Studio = () => {
     setActiveScene(null);
 
     const { active, over } = event;
-
     if (!over || active.id === over.id) return;
 
     const fromStep = active.data.current?.step;
     const toStep = over.data.current?.step;
 
     if (typeof toStep !== 'number' || fromStep === toStep) return;
+    if (toStep !== fromStep + 1) return;
 
-    dispatch({
-      type: 'MOVE_SCENE',
-      payload: {
-        id: active.id as string,
-        toStep,
-      },
-    });
+    const scene = scenes.find((s) => s.id === active.id);
+    if (!scene) return;
+
+    updateScene({ ...scene, step: toStep });
   };
 
   const handleSceneUpdate = (updatedScene: SceneDetails) => {
-    dispatch({
-      type: 'UPDATE_SCENE',
-      payload: updatedScene,
-    });
-  };
-
-  const fetchScenes = async () => {
-    try {
-      dispatch({ type: 'SET_LOADING', payload: true });
-
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/scenes`);
-      if (!response.ok) throw new Error('Failed to fetch scenes');
-
-      const data = await response.json();
-      dispatch({ type: 'SET_SCENES', payload: data });
-    } catch (err) {
-      dispatch({
-        type: 'SET_ERROR',
-        payload: err instanceof Error ? err.message : 'Unknown error',
-      });
-    } finally {
-      dispatch({ type: 'SET_LOADING', payload: false });
-    }
+    updateScene(updatedScene);
   };
 
   const sensors = useSensors(
@@ -104,10 +78,6 @@ const Studio = () => {
       },
     }),
   );
-
-  useEffect(() => {
-    fetchScenes();
-  }, []);
 
   if (!selectedProduction) {
     return (
@@ -151,9 +121,9 @@ const Studio = () => {
               id={`column-${step}`}
               step={step}
               label={steps[step]}
-              count={state.scenes.filter((s) => s.step === step).length}
+              count={scenes.filter((s) => s.step === step).length}
             >
-              {state.scenes
+              {scenes
                 .filter((scene) => scene.step === step)
                 .map((scene) => (
                   <Scene key={scene.id} {...scene} onUpdate={handleSceneUpdate} />
