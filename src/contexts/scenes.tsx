@@ -1,5 +1,4 @@
-import { createContext, useContext, useEffect, useReducer } from 'react';
-import { type ReactNode } from 'react';
+import { type ReactNode, createContext, useContext, useEffect, useReducer } from 'react';
 
 import { type Scene, initialSceneState, sceneReducer } from '../reducers/scenes';
 
@@ -8,8 +7,8 @@ interface ScenesContextType {
   loading: boolean;
   error: string | null;
   fetchScenes: () => Promise<void>;
-  createScene: (scene: Scene) => Promise<void>;
   updateScene: (scene: Scene) => void;
+  createScene: (scene: Scene) => Promise<void>;
 }
 
 const ScenesContext = createContext<ScenesContextType | undefined>(undefined);

@@ -1,6 +1,5 @@
 /* eslint-disable indent */
-import { createContext, useEffect, useReducer } from 'react';
-import { type ReactNode } from 'react';
+import { type ReactNode, createContext, useEffect, useReducer } from 'react';
 
 interface Production {
   id: string;
@@ -26,7 +25,7 @@ const COOKIE_OPTIONS = {
   path: '/',
   secure: true,
   sameSite: 'strict' as const,
-  maxAge: 24 * 60 * 60, // 24 horas
+  maxAge: 24 * 60 * 60,
 };
 
 const loadState = (): ProductionState => {
@@ -77,7 +76,6 @@ function productionReducer(state: ProductionState, action: ProductionAction): Pr
         ...state,
         selectedProduction: action.payload,
       };
-      // Atualiza o cookie quando a produção é selecionada
       if (action.payload) {
         document.cookie = `${COOKIE_NAME}=${encodeURIComponent(JSON.stringify(action.payload))}; ${Object.entries(
           COOKIE_OPTIONS,
@@ -85,7 +83,6 @@ function productionReducer(state: ProductionState, action: ProductionAction): Pr
           .map(([key, value]) => `${key}=${value}`)
           .join('; ')}`;
       } else {
-        // Remove o cookie quando a produção é desselecionada
         document.cookie = `${COOKIE_NAME}=; ${Object.entries({ ...COOKIE_OPTIONS, maxAge: 0 })
           .map(([key, value]) => `${key}=${value}`)
           .join('; ')}`;

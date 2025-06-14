@@ -1,9 +1,9 @@
 import { type ReactNode } from 'react';
 
 interface NavItem {
-  icon: ReactNode;
-  label: string;
   href: string;
+  label: string;
+  icon: ReactNode;
 }
 
 export type { NavItem };
