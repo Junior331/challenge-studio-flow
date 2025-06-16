@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { arrayMove } from '@dnd-kit/sortable';
+
 /* eslint-disable indent */
 type Scene = {
   id: string;
@@ -54,6 +57,7 @@ const sceneReducer = (state: State, action: Action): State => {
 
     case 'REORDER_SCENES': {
       const { step, activeId, overId } = action.payload;
+
       const scenesInStep = state.scenes
         .filter((s) => s.step === step)
         .sort((a, b) => a.order - b.order);
@@ -61,33 +65,29 @@ const sceneReducer = (state: State, action: Action): State => {
       const activeIndex = scenesInStep.findIndex((s) => s.id === activeId);
       const overIndex = scenesInStep.findIndex((s) => s.id === overId);
 
-      if (activeIndex === -1 || overIndex === -1 || activeIndex === overIndex) {
+      if (activeIndex === -1 || overIndex === -1) {
         return state;
       }
 
-      const newScenes = [...state.scenes];
-      // const activeScene = newScenes.find((s) => s.id === activeId)!;
-      const isMovingDown = activeIndex < overIndex;
+      if (activeIndex === overIndex) {
+        return state;
+      }
 
-      // Atualiza a ordem de todos os cards afetados
-      newScenes.forEach((scene) => {
-        if (scene.step === step) {
-          if (scene.id === activeId) {
-            scene.order = isMovingDown
-              ? scenesInStep[overIndex].order
-              : scenesInStep[overIndex].order - 1;
-          } else if (
-            isMovingDown
-              ? scene.order > scenesInStep[activeIndex].order &&
-                scene.order <= scenesInStep[overIndex].order
-              : scene.order >= scenesInStep[overIndex].order &&
-                scene.order < scenesInStep[activeIndex].order
-          ) {
-            scene.order += isMovingDown ? -1 : 1;
-          }
+      const reorderedScenesInStep = arrayMove(scenesInStep, activeIndex, overIndex);
+
+      const updatedScenesInStep = reorderedScenesInStep.map((scene, index) => ({
+        ...scene,
+        order: index,
+      }));
+
+      const newScenes = state.scenes.map((scene) => {
+        if (scene.step !== step) {
+          return scene;
         }
-      });
 
+        const updatedScene = updatedScenesInStep.find((s) => s.id === scene.id);
+        return updatedScene || scene;
+      });
       return { ...state, scenes: newScenes };
     }
 

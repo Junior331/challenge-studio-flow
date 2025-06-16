@@ -31,14 +31,14 @@ export function Column({ id, step, label, scenes, count, children }: ColumnProps
     );
   }
 
-  const isNextStep = active.data.current?.step === step - 1;
+  const isNextStep = active?.data.current?.step === step - 1;
 
   return (
     <div
       ref={setNodeRef}
       className={cn(
         'flex flex-col gap-1 p-1.5 bg-secondary rounded-lg border border-border w-72 min-w-[16rem] max-w-xs h-fit transition-all duration-200',
-        isNextStep || active.data.current?.step === step
+        isNextStep || active?.data.current?.step === step
           ? 'border-primary bg-primary/5 scale-[1.02]'
           : 'opacity-40 cursor-not-allowed',
       )}
@@ -50,7 +50,7 @@ export function Column({ id, step, label, scenes, count, children }: ColumnProps
 
       <div className='flex flex-col gap-2 p-2 min-h-[200px] rounded-lg border border-border bg-background/50 overflow-auto'>
         <SortableContext items={scenes.map((s) => s.id)} strategy={verticalListSortingStrategy}>
-          {children}
+          <div className='flex flex-col gap-2'>{children}</div>
         </SortableContext>
       </div>
     </div>

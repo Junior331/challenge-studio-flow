@@ -41,18 +41,19 @@
   "scenes": [
     {
       "id": "1",
-      "title": "A Chegada",
-      "description": "João chega à cidade em busca de uma nova vida",
+      "order": 0,
       "step": 1,
       "episode": "1",
+      "title": "A Chegada",
       "columnId": "column-1",
       "recordDate": "2000-03-15",
       "recordLocation": "Estúdio Central",
       "updatedAt": "2025-06-05T23:23:13.281Z",
-      "version": 0.9819784473304957
+      "description": "João chega à cidade em busca de uma nova vida"
     },
     {
       "id": "2",
+      "order": 1,
       "step": 2,
       "episode": "1",
       "title": "O Encontro",
@@ -63,6 +64,7 @@
     },
     {
       "id": "3",
+      "order": 2,
       "step": 3,
       "episode": "1",
       "title": "A Conversa",
@@ -73,6 +75,7 @@
     },
     {
       "id": "4",
+      "order": 3,
       "step": 4,
       "episode": "1",
       "title": "O Desafio",
@@ -83,6 +86,7 @@
     },
     {
       "id": "5",
+      "order": 4,
       "step": 5,
       "episode": "1",
       "title": "A Vitória",
@@ -93,6 +97,7 @@
     },
     {
       "id": "6",
+      "order": 5,
       "step": 1,
       "episode": "2",
       "title": "Novos Horizontes",
@@ -103,6 +108,7 @@
     },
     {
       "id": "7",
+      "order": 6,
       "step": 2,
       "episode": "2",
       "title": "O Projeto",
@@ -113,6 +119,7 @@
     },
     {
       "id": "8",
+      "order": 7,
       "step": 3,
       "episode": "2",
       "title": "Os Obstáculos",
@@ -123,6 +130,7 @@
     },
     {
       "id": "9",
+      "order": 8,
       "step": 4,
       "episode": "2",
       "title": "A Superação",
@@ -133,6 +141,7 @@
     },
     {
       "id": "10",
+      "order": 9,
       "step": 5,
       "episode": "2",
       "title": "O Sucesso",
@@ -143,6 +152,7 @@
     },
     {
       "id": "11",
+      "order": 10,
       "step": 1,
       "episode": "3",
       "title": "A Mudança",
@@ -153,6 +163,7 @@
     },
     {
       "id": "12",
+      "order": 11,
       "step": 2,
       "episode": "3",
       "title": "A Despedida",
@@ -163,6 +174,7 @@
     },
     {
       "id": "13",
+      "order": 12,
       "step": 3,
       "episode": "3",
       "title": "A Saudade",
@@ -173,6 +185,7 @@
     },
     {
       "id": "14",
+      "order": 13,
       "step": 4,
       "episode": "3",
       "title": "A Decisão",
@@ -183,6 +196,7 @@
     },
     {
       "id": "15",
+      "order": 14,
       "step": 5,
       "episode": "3",
       "title": "O Reencontro",
@@ -193,6 +207,7 @@
     },
     {
       "id": "16",
+      "order": 15,
       "step": 1,
       "episode": "4",
       "title": "Novos Planos",
@@ -203,6 +218,7 @@
     },
     {
       "id": "17",
+      "order": 16,
       "step": 2,
       "episode": "4",
       "title": "A Busca",
@@ -213,6 +229,7 @@
     },
     {
       "id": "18",
+      "order": 17,
       "step": 3,
       "episode": "4",
       "title": "A Escolha",
@@ -223,6 +240,7 @@
     },
     {
       "id": "19",
+      "order": 18,
       "step": 4,
       "episode": "4",
       "title": "A Mudança",
@@ -233,6 +251,7 @@
     },
     {
       "id": "20",
+      "order": 19,
       "step": 5,
       "episode": "4",
       "title": "A Festa",
@@ -243,6 +262,7 @@
     },
     {
       "id": "21",
+      "order": 20,
       "step": 1,
       "episode": "5",
       "title": "O Trabalho",
@@ -253,6 +273,7 @@
     },
     {
       "id": "22",
+      "order": 21,
       "step": 2,
       "episode": "5",
       "title": "A Adaptação",
@@ -263,6 +284,7 @@
     },
     {
       "id": "23",
+      "order": 22,
       "step": 3,
       "episode": "5",
       "title": "Os Colegas",
@@ -273,6 +295,7 @@
     },
     {
       "id": "24",
+      "order": 23,
       "step": 4,
       "episode": "5",
       "title": "O Projeto",
@@ -283,6 +306,7 @@
     },
     {
       "id": "25",
+      "order": 24,
       "step": 5,
       "episode": "5",
       "title": "O Sucesso",
@@ -293,6 +317,7 @@
     },
     {
       "id": "26",
+      "order": 25,
       "step": 1,
       "episode": "6",
       "title": "A Promoção",
@@ -303,6 +328,7 @@
     },
     {
       "id": "27",
+      "order": 26,
       "step": 2,
       "episode": "6",
       "title": "A Celebração",
@@ -313,6 +339,7 @@
     },
     {
       "id": "28",
+      "order": 27,
       "step": 3,
       "episode": "6",
       "title": "Os Novos Desafios",
@@ -323,6 +350,7 @@
     },
     {
       "id": "29",
+      "order": 28,
       "step": 4,
       "episode": "6",
       "title": "A Equipe",
@@ -333,6 +361,7 @@
     },
     {
       "id": "30",
+      "order": 29,
       "step": 5,
       "episode": "6",
       "title": "O Resultado",
@@ -343,6 +372,7 @@
     },
     {
       "id": "31",
+      "order": 30,
       "step": 1,
       "episode": "7",
       "title": "A Viagem",
@@ -353,6 +383,7 @@
     },
     {
       "id": "32",
+      "order": 31,
       "step": 2,
       "episode": "7",
       "title": "O Encontro",
@@ -363,6 +394,7 @@
     },
     {
       "id": "33",
+      "order": 32,
       "step": 3,
       "episode": "7",
       "title": "A Negociação",
@@ -373,6 +405,7 @@
     },
     {
       "id": "34",
+      "order": 33,
       "step": 4,
       "episode": "7",
       "title": "O Contrato",
@@ -383,6 +416,7 @@
     },
     {
       "id": "35",
+      "order": 34,
       "step": 5,
       "episode": "7",
       "title": "O Retorno",
@@ -393,6 +427,7 @@
     },
     {
       "id": "36",
+      "order": 35,
       "step": 1,
       "episode": "8",
       "title": "A Surpresa",
@@ -403,6 +438,7 @@
     },
     {
       "id": "37",
+      "order": 36,
       "step": 2,
       "episode": "8",
       "title": "A Decisão",
@@ -413,6 +449,7 @@
     },
     {
       "id": "38",
+      "order": 37,
       "step": 3,
       "episode": "8",
       "title": "O Momento",
@@ -423,6 +460,7 @@
     },
     {
       "id": "39",
+      "order": 38,
       "step": 4,
       "episode": "8",
       "title": "A Celebração",
@@ -433,6 +471,7 @@
     },
     {
       "id": "40",
+      "order": 39,
       "step": 5,
       "episode": "8",
       "title": "O Futuro",
@@ -443,6 +482,7 @@
     },
     {
       "id": "41",
+      "order": 40,
       "step": 1,
       "episode": "9",
       "title": "A Mudança",
@@ -453,6 +493,7 @@
     },
     {
       "id": "42",
+      "order": 41,
       "step": 2,
       "episode": "9",
       "title": "A Adaptação",
@@ -463,6 +504,7 @@
     },
     {
       "id": "43",
+      "order": 42,
       "step": 3,
       "episode": "9",
       "title": "Os Desafios",
@@ -473,6 +515,7 @@
     },
     {
       "id": "44",
+      "order": 43,
       "step": 4,
       "episode": "9",
       "title": "A Superação",
@@ -483,6 +526,7 @@
     },
     {
       "id": "45",
+      "order": 44,
       "step": 5,
       "episode": "9",
       "title": "O Sucesso",
@@ -493,6 +537,7 @@
     },
     {
       "id": "46",
+      "order": 45,
       "step": 1,
       "episode": "10",
       "title": "O Projeto",
@@ -503,6 +548,7 @@
     },
     {
       "id": "47",
+      "order": 46,
       "step": 2,
       "episode": "10",
       "title": "A Equipe",
@@ -513,6 +559,7 @@
     },
     {
       "id": "48",
+      "order": 47,
       "step": 3,
       "episode": "10",
       "title": "O Desenvolvimento",
@@ -523,6 +570,7 @@
     },
     {
       "id": "49",
+      "order": 48,
       "step": 4,
       "episode": "10",
       "title": "Os Ajustes",
@@ -533,6 +581,7 @@
     },
     {
       "id": "50",
+      "order": 49,
       "step": 5,
       "episode": "10",
       "title": "A Conclusão",
@@ -543,6 +592,7 @@
     },
     {
       "id": "51",
+      "order": 50,
       "step": 1,
       "episode": "11",
       "title": "A Viagem",
@@ -553,6 +603,7 @@
     },
     {
       "id": "52",
+      "order": 51,
       "step": 2,
       "episode": "11",
       "title": "O Destino",
@@ -563,6 +614,7 @@
     },
     {
       "id": "53",
+      "order": 52,
       "step": 3,
       "episode": "11",
       "title": "A Exploração",
@@ -573,6 +625,7 @@
     },
     {
       "id": "54",
+      "order": 53,
       "step": 4,
       "episode": "11",
       "title": "As Descobertas",
@@ -583,6 +636,7 @@
     },
     {
       "id": "55",
+      "order": 54,
       "step": 5,
       "episode": "11",
       "title": "O Retorno",
@@ -593,6 +647,7 @@
     },
     {
       "id": "56",
+      "order": 55,
       "step": 1,
       "episode": "12",
       "title": "A Festa",
@@ -603,6 +658,7 @@
     },
     {
       "id": "57",
+      "order": 56,
       "step": 2,
       "episode": "12",
       "title": "Os Convidados",
@@ -613,6 +669,7 @@
     },
     {
       "id": "58",
+      "order": 57,
       "step": 3,
       "episode": "12",
       "title": "A Celebração",
@@ -623,6 +680,7 @@
     },
     {
       "id": "59",
+      "order": 58,
       "step": 4,
       "episode": "12",
       "title": "Os Momentos",
@@ -633,6 +691,7 @@
     },
     {
       "id": "60",
+      "order": 59,
       "step": 5,
       "episode": "12",
       "title": "A Despedida",
@@ -643,6 +702,7 @@
     },
     {
       "id": "61",
+      "order": 60,
       "step": 1,
       "episode": "13",
       "title": "O Ano Novo",
@@ -653,6 +713,7 @@
     },
     {
       "id": "62",
+      "order": 61,
       "step": 2,
       "episode": "13",
       "title": "As Metas",
@@ -663,6 +724,7 @@
     },
     {
       "id": "63",
+      "order": 62,
       "step": 3,
       "episode": "13",
       "title": "Os Objetivos",
@@ -673,6 +735,7 @@
     },
     {
       "id": "64",
+      "order": 63,
       "step": 4,
       "episode": "13",
       "title": "O Plano",
@@ -683,6 +746,7 @@
     },
     {
       "id": "65",
+      "order": 64,
       "step": 5,
       "episode": "13",
       "title": "A Execução",
@@ -693,6 +757,7 @@
     },
     {
       "id": "66",
+      "order": 65,
       "step": 1,
       "episode": "14",
       "title": "O Desafio",
@@ -703,6 +768,7 @@
     },
     {
       "id": "67",
+      "order": 66,
       "step": 2,
       "episode": "14",
       "title": "A Preparação",
@@ -713,6 +779,7 @@
     },
     {
       "id": "68",
+      "order": 67,
       "step": 3,
       "episode": "14",
       "title": "O Enfrentamento",
@@ -723,6 +790,7 @@
     },
     {
       "id": "69",
+      "order": 68,
       "step": 4,
       "episode": "14",
       "title": "A Superação",
@@ -733,6 +801,7 @@
     },
     {
       "id": "70",
+      "order": 69,
       "step": 5,
       "episode": "14",
       "title": "A Vitória",
@@ -743,6 +812,7 @@
     },
     {
       "id": "71",
+      "order": 70,
       "step": 1,
       "episode": "15",
       "title": "A Mudança",
@@ -753,6 +823,7 @@
     },
     {
       "id": "72",
+      "order": 71,
       "step": 2,
       "episode": "15",
       "title": "A Adaptação",
@@ -763,6 +834,7 @@
     },
     {
       "id": "73",
+      "order": 72,
       "step": 3,
       "episode": "15",
       "title": "Os Novos Caminhos",
@@ -773,6 +845,7 @@
     },
     {
       "id": "74",
+      "order": 73,
       "step": 4,
       "episode": "15",
       "title": "As Descobertas",
@@ -783,6 +856,7 @@
     },
     {
       "id": "75",
+      "order": 74,
       "step": 5,
       "episode": "15",
       "title": "O Futuro",
@@ -793,6 +867,7 @@
     },
     {
       "id": "76",
+      "order": 75,
       "step": 1,
       "episode": "16",
       "title": "O Projeto",
@@ -803,6 +878,7 @@
     },
     {
       "id": "77",
+      "order": 76,
       "step": 2,
       "episode": "16",
       "title": "A Equipe",
@@ -813,6 +889,7 @@
     },
     {
       "id": "78",
+      "order": 77,
       "step": 3,
       "episode": "16",
       "title": "O Desenvolvimento",
@@ -823,6 +900,7 @@
     },
     {
       "id": "79",
+      "order": 78,
       "step": 4,
       "episode": "16",
       "title": "Os Ajustes",
@@ -833,6 +911,7 @@
     },
     {
       "id": "80",
+      "order": 79,
       "step": 5,
       "episode": "16",
       "title": "A Conclusão",
@@ -843,6 +922,7 @@
     },
     {
       "id": "81",
+      "order": 80,
       "step": 1,
       "episode": "17",
       "title": "A Viagem",
@@ -853,6 +933,7 @@
     },
     {
       "id": "82",
+      "order": 81,
       "step": 2,
       "episode": "17",
       "title": "O Destino",
@@ -863,6 +944,7 @@
     },
     {
       "id": "83",
+      "order": 82,
       "step": 3,
       "episode": "17",
       "title": "A Exploração",
@@ -873,6 +955,7 @@
     },
     {
       "id": "84",
+      "order": 83,
       "step": 4,
       "episode": "17",
       "title": "As Descobertas",
@@ -883,6 +966,7 @@
     },
     {
       "id": "85",
+      "order": 84,
       "step": 5,
       "episode": "17",
       "title": "O Retorno",
@@ -893,6 +977,7 @@
     },
     {
       "id": "86",
+      "order": 85,
       "step": 1,
       "episode": "18",
       "title": "A Festa",
@@ -903,6 +988,7 @@
     },
     {
       "id": "87",
+      "order": 86,
       "step": 2,
       "episode": "18",
       "title": "Os Convidados",
@@ -913,6 +999,7 @@
     },
     {
       "id": "88",
+      "order": 87,
       "step": 3,
       "episode": "18",
       "title": "A Celebração",
@@ -923,6 +1010,7 @@
     },
     {
       "id": "89",
+      "order": 88,
       "step": 4,
       "episode": "18",
       "title": "Os Momentos",
@@ -933,6 +1021,7 @@
     },
     {
       "id": "90",
+      "order": 89,
       "step": 5,
       "episode": "18",
       "title": "A Despedida",
@@ -943,6 +1032,7 @@
     },
     {
       "id": "91",
+      "order": 90,
       "step": 1,
       "episode": "19",
       "title": "O Ano Novo",
@@ -953,6 +1043,7 @@
     },
     {
       "id": "92",
+      "order": 91,
       "step": 2,
       "episode": "19",
       "title": "As Metas",
@@ -963,6 +1054,7 @@
     },
     {
       "id": "93",
+      "order": 92,
       "step": 3,
       "episode": "19",
       "title": "Os Objetivos",
@@ -973,6 +1065,7 @@
     },
     {
       "id": "94",
+      "order": 93,
       "step": 4,
       "episode": "19",
       "title": "O Plano",
@@ -983,6 +1076,7 @@
     },
     {
       "id": "95",
+      "order": 94,
       "step": 5,
       "episode": "19",
       "title": "A Execução",
@@ -993,6 +1087,7 @@
     },
     {
       "id": "96",
+      "order": 95,
       "step": 1,
       "episode": "20",
       "title": "O Desafio",
@@ -1003,6 +1098,7 @@
     },
     {
       "id": "97",
+      "order": 96,
       "step": 2,
       "episode": "20",
       "title": "A Preparação",
@@ -1013,6 +1109,7 @@
     },
     {
       "id": "98",
+      "order": 97,
       "step": 3,
       "episode": "20",
       "title": "O Enfrentamento",
@@ -1023,6 +1120,7 @@
     },
     {
       "id": "99",
+      "order": 98,
       "step": 4,
       "episode": "20",
       "title": "A Superação",
@@ -1033,6 +1131,7 @@
     },
     {
       "id": "100",
+      "order": 99,
       "step": 5,
       "episode": "20",
       "title": "A Vitória",

@@ -1,11 +1,11 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { useMemo, useState } from 'react';
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-import { cn } from '../../../lib/utils';
 import { type Scene as SceneType } from '../../../reducers/scenes';
+import { cn } from '../../../utils/cn';
 import { Modal } from '../Modal';
 import { type SceneProps } from './@types';
 
@@ -35,20 +35,20 @@ export function Scene({
     return heavyComputation(description);
   }, [description]);
 
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging, active } =
-    useSortable({
-      id,
-      attributes: { role: 'button' },
-      data: {
-        step,
-        title,
-        episode,
-        columnId,
-        recordDate,
-        description,
-        recordLocation,
-      },
-    });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id,
+    data: {
+      type: 'Scene',
+      step,
+      title,
+      episode,
+      columnId,
+      recordDate,
+      description,
+      recordLocation,
+      order,
+    },
+  });
 
   const style = {
     transform: CSS.Translate.toString(transform),
@@ -73,8 +73,14 @@ export function Scene({
     }
   };
 
-  if (active?.id === id) {
-    return (
+  return (
+    <div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        scene={sceneDetails}
+        onUpdate={handleUpdate}
+      />
       <div
         ref={setNodeRef}
         style={style}
@@ -85,33 +91,6 @@ export function Scene({
           'flex flex-col gap-2 p-2 cursor-pointer bg-primary text-accent rounded-lg border border-border',
           isDragging && 'opacity-50',
         )}
-      >
-        <div className='flex flex-col gap-1'>
-          <span className='text-sm font-medium'>{computedTitle}</span>
-          <span className='text-xs'>{computedDescription}</span>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        scene={sceneDetails}
-        onUpdate={handleUpdate}
-      />
-
-      <div
-        ref={setNodeRef}
-        style={{
-          transform: CSS.Translate.toString(transform),
-        }}
-        {...listeners}
-        {...attributes}
-        onClick={() => setIsModalOpen(true)}
-        className='flex flex-col gap-2 p-2 cursor-pointer bg-primary text-accent rounded-lg border border-border'
       >
         <div className='flex flex-col gap-1'>
           <span className='text-sm font-medium'>{computedTitle}</span>

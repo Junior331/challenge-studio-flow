@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import {
   DndContext,
@@ -33,6 +33,11 @@ const Studio = () => {
   const { scenes, updateScene, reorderScenes } = useScenes();
   const [activeScene, setActiveScene] = useState<SceneProps | null>(null);
 
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log('Scenes updated:', scenes);
+  }, [scenes]);
+
   const scenesByStep = useMemo(() => {
     return scenes.reduce(
       (acc, scene) => {
@@ -48,7 +53,6 @@ const Studio = () => {
 
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event;
-
     setActiveScene({
       id: active.id as string,
       step: active.data.current?.step,
@@ -69,12 +73,8 @@ const Studio = () => {
     const activeStep = active.data.current?.step;
     const overStep = over.data.current?.step;
 
-    // Se estiver movendo entre colunas
-    if (activeStep !== overStep) {
-      return;
-    }
+    if (activeStep !== overStep) return;
 
-    // Se estiver na mesma coluna, trata como reordenação
     const activeId = active.id.toString();
     const overId = over.id.toString();
 
@@ -85,14 +85,12 @@ const Studio = () => {
 
   const handleDragEnd = (event: DragEndEvent) => {
     setActiveScene(null);
-
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
     const fromStep = active.data.current?.step;
     const toStep = over.data.current?.step;
 
-    // Se estiver na mesma coluna, a reordenação já foi tratada no dragOver
     if (fromStep === toStep) return;
 
     if (typeof toStep !== 'number') return;
@@ -101,7 +99,10 @@ const Studio = () => {
     const scene = scenes.find((s) => s.id === active.id);
     if (!scene) return;
 
-    updateScene({ ...scene, step: toStep });
+    const targetStepScenes = scenes.filter((s) => s.step === toStep);
+    const newOrder = targetStepScenes.length;
+
+    updateScene({ ...scene, step: toStep, order: newOrder });
   };
 
   const handleSceneUpdate = (updatedScene: SceneDetails) => {
@@ -161,18 +162,16 @@ const Studio = () => {
           <DragOverlay>{activeScene ? <Scene {...activeScene} /> : null}</DragOverlay>
           {[1, 2, 3, 4, 5].map((step) => {
             const stepScenes = scenesByStep[step] || [];
-
             return (
               <Column
                 key={step}
-                scenes={scenes}
+                scenes={stepScenes}
                 id={`column-${step}`}
                 step={step}
                 label={steps[step]}
-                count={scenes.filter((s) => s.step === step).length}
+                count={stepScenes.length}
               >
                 {stepScenes
-                  .filter((scene) => scene.step === step)
                   .sort((a, b) => a.order - b.order)
                   .map((scene) => (
                     <Scene key={scene.id} {...scene} onUpdate={handleSceneUpdate} />

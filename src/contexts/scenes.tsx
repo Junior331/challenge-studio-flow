@@ -37,6 +37,18 @@ function ScenesProvider({ children }: { children: ReactNode }) {
   };
 
   const reorderScenes = (step: number, activeId: string, overId: string) => {
+    if (!activeId || !overId || activeId === overId) {
+      return;
+    }
+
+    const scenesInStep = state.scenes.filter((s) => s.step === step);
+    const activeExists = scenesInStep.some((s) => s.id === activeId);
+    const overExists = scenesInStep.some((s) => s.id === overId);
+
+    if (!activeExists || !overExists) {
+      return;
+    }
+
     dispatch({ type: 'REORDER_SCENES', payload: { step, activeId, overId } });
   };
 
