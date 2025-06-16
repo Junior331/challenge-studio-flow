@@ -1,4 +1,6 @@
-import { Fragment, useState } from 'react';
+/* eslint-disable import/no-extraneous-dependencies */
+import { Fragment, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react';
 import { XIcon } from 'lucide-react';
@@ -9,6 +11,10 @@ export function Modal({ isOpen, onClose, scene, onUpdate }: ModalProps) {
   const [editedScene, setEditedScene] = useState<SceneDetails | undefined>(scene);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setEditedScene(scene);
+  }, [scene]);
 
   const STEPS: Record<number, string> = {
     1: 'Roteirizado',
@@ -69,26 +75,13 @@ export function Modal({ isOpen, onClose, scene, onUpdate }: ModalProps) {
     setIsSaving(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/scenes/${editedScene.id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...editedScene,
-          updatedAt: new Date().toISOString(),
-          version: Math.random(),
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Falha ao salvar a cena');
-      }
-
-      onUpdate(editedScene);
+      await onUpdate(editedScene);
+      toast.success('Cena atualizada com sucesso!');
       onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao salvar a cena');
+      const errorMessage = err instanceof Error ? err.message : 'Erro ao salvar a cena';
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsSaving(false);
     }

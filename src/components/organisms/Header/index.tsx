@@ -21,6 +21,7 @@ export function Header() {
       recordLocation: '',
       columnId: 'column-1',
       id: (scenes.length + 1).toString(),
+      order: scenes.length,
       recordDate: new Date().toISOString().split('T')[0],
     };
 

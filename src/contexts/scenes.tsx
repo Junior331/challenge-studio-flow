@@ -71,8 +71,29 @@ function ScenesProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const updateScene = (scene: Scene) => {
-    dispatch({ type: 'UPDATE_SCENE', payload: scene });
+  const updateScene = async (scene: Scene) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/scenes/${scene.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...scene,
+          updatedAt: new Date().toISOString(),
+          version: Math.random(),
+        }),
+      });
+
+      if (!response.ok) throw new Error('Falha ao atualizar cena');
+
+      dispatch({ type: 'UPDATE_SCENE', payload: scene });
+    } catch (err) {
+      dispatch({
+        type: 'SET_ERROR',
+        payload: err instanceof Error ? err.message : 'Erro desconhecido',
+      });
+    }
   };
 
   useEffect(() => {
