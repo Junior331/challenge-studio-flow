@@ -172,6 +172,7 @@ const Studio = () => {
                 count={scenes.filter((s) => s.step === step).length}
               >
                 {stepScenes
+                  .filter((scene) => scene.step === step)
                   .sort((a, b) => a.order - b.order)
                   .map((scene) => (
                     <Scene key={scene.id} {...scene} onUpdate={handleSceneUpdate} />
