@@ -5,24 +5,32 @@ import toast from 'react-hot-toast';
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react';
 import { XIcon } from 'lucide-react';
 
+import { STEPS } from '../../../utils/utils';
 import { type ModalProps, type SceneDetails } from './@types';
 
-export function Modal({ isOpen, onClose, scene, onUpdate }: ModalProps) {
+export function Modal({ isOpen, onClose, scene, scenes, onUpdate, mode = 'edit' }: ModalProps) {
   const [editedScene, setEditedScene] = useState<SceneDetails | undefined>(scene);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setEditedScene(scene);
-  }, [scene]);
-
-  const STEPS: Record<number, string> = {
-    1: 'Roteirizado',
-    2: 'Em pré-produção',
-    3: 'Em gravação',
-    4: 'Em pós-produção',
-    5: 'Finalizado',
-  };
+    if (mode === 'create') {
+      setEditedScene({
+        id: (scenes?.length ?? 0 + 1).toString(),
+        title: '',
+        description: '',
+        step: 1,
+        episode: '',
+        recordDate: new Date().toISOString().split('T')[0],
+        recordLocation: '',
+        columnId: 'column-1',
+        order: scenes?.length ?? 0,
+      });
+    } else {
+      setEditedScene(scene);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scene, mode]);
 
   const nextStep = scene?.step ? scene.step + 1 : 1;
   const availableSteps = Object.entries(STEPS).filter(
@@ -33,7 +41,7 @@ export function Modal({ isOpen, onClose, scene, onUpdate }: ModalProps) {
     if (!editedScene) return;
     setError(null);
 
-    if (field === 'step') {
+    if (field === 'step' && mode === 'edit') {
       const currentStep = editedScene.step;
       const newStep = Number(value);
 
@@ -59,6 +67,14 @@ export function Modal({ isOpen, onClose, scene, onUpdate }: ModalProps) {
       return 'A data de gravação não pode ser anterior à data atual';
     }
 
+    if (!scene.title.trim()) {
+      return 'O título é obrigatório';
+    }
+
+    if (!scene.episode.trim()) {
+      return 'O episódio é obrigatório';
+    }
+
     return null;
   };
 
@@ -76,7 +92,9 @@ export function Modal({ isOpen, onClose, scene, onUpdate }: ModalProps) {
 
     try {
       await onUpdate(editedScene);
-      toast.success('Cena atualizada com sucesso!');
+      toast.success(
+        mode === 'create' ? 'Cena criada com sucesso!' : 'Cena atualizada com sucesso!',
+      );
       onClose();
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Erro ao salvar a cena';
@@ -116,7 +134,7 @@ export function Modal({ isOpen, onClose, scene, onUpdate }: ModalProps) {
               <DialogPanel className='w-full max-w-md transform overflow-hidden rounded-2xl bg-background p-6 text-left align-middle shadow-xl transition-all'>
                 <div className='flex items-center justify-between mb-4'>
                   <DialogTitle as='h3' className='text-lg font-medium leading-6 text-primary'>
-                    Detalhes da Cena
+                    {mode === 'create' ? 'Criar Nova Cena' : 'Detalhes da Cena'}
                   </DialogTitle>
                   <button
                     onClick={onClose}
@@ -125,6 +143,13 @@ export function Modal({ isOpen, onClose, scene, onUpdate }: ModalProps) {
                     <XIcon className='h-5 w-5 text-primary' />
                   </button>
                 </div>
+
+                {mode === 'create' && (
+                  <div className='mb-4 p-3 rounded-md bg-yellow-500 text-black text-sm'>
+                    📢 Aviso: Todas as novas cenas criadas serão iniciadas automaticamente na coluna
+                    "{STEPS[1]}".
+                  </div>
+                )}
 
                 {error && (
                   <div className='mb-4 p-3 rounded-md bg-destructive/10 text-destructive text-sm'>
@@ -169,7 +194,8 @@ export function Modal({ isOpen, onClose, scene, onUpdate }: ModalProps) {
                       <select
                         value={editedScene.step}
                         onChange={(e) => handleChange('step', Number(e.target.value))}
-                        className='mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-primary focus:outline-none focus:ring-2 focus:ring-primary/50'
+                        disabled={mode === 'create'}
+                        className='mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:opacity-50 disabled:cursor-not-allowed'
                       >
                         {availableSteps.map(([value, label]) => (
                           <option key={value} value={value}>
@@ -212,7 +238,7 @@ export function Modal({ isOpen, onClose, scene, onUpdate }: ModalProps) {
                         disabled={isSaving || !!error}
                         className='px-4 py-2 text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
                       >
-                        {isSaving ? 'Salvando...' : 'Salvar'}
+                        {isSaving ? 'Salvando...' : mode === 'create' ? 'Criar' : 'Salvar'}
                       </button>
                     </div>
                   </div>

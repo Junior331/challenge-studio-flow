@@ -54,7 +54,7 @@
     },
     {
       "id": "2",
-      "title": "O Encontro",
+      "title": "O Encontro 2",
       "description": "João conhece Maria na praça da cidade",
       "step": 2,
       "episode": "1",
@@ -62,8 +62,8 @@
       "recordDate": "2026-03-20",
       "recordLocation": "Praça Central",
       "order": 0,
-      "updatedAt": "2025-06-16T16:53:24.715Z",
-      "version": 0.7785685823061549
+      "updatedAt": "2025-06-16T17:22:19.607Z",
+      "version": 0.10434207969147802
     },
     {
       "id": "3",
@@ -1148,37 +1148,15 @@
       "description": "Celebrando a vitória"
     },
     {
-      "id": "101",
+      "id": "100",
+      "title": "Jaja teste 123",
+      "description": "Descrição teste ",
       "step": 1,
-      "episode": "1",
-      "description": "",
-      "title": "Nova Cena",
-      "recordLocation": "",
+      "episode": "2",
+      "recordDate": "2026-06-16",
+      "recordLocation": "Casaa",
       "columnId": "column-1",
-      "order": 100,
-      "recordDate": "2025-06-16"
-    },
-    {
-      "id": "102",
-      "step": 1,
-      "episode": "1",
-      "description": "",
-      "title": "Nova Cena",
-      "recordLocation": "",
-      "columnId": "column-1",
-      "order": 101,
-      "recordDate": "2025-06-16"
-    },
-    {
-      "id": "103",
-      "step": 1,
-      "episode": "1",
-      "description": "",
-      "title": "Nova Cena",
-      "recordLocation": "",
-      "columnId": "column-1",
-      "order": 102,
-      "recordDate": "2025-06-16"
+      "order": 100
     }
   ]
 }

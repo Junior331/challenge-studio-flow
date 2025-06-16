@@ -67,9 +67,9 @@ export function Scene({
     order,
   };
 
-  const handleUpdate = (updatedScene: SceneType) => {
+  const handleUpdate = async (updatedScene: SceneType) => {
     if (onUpdate) {
-      onUpdate(updatedScene);
+      await onUpdate(updatedScene);
     }
   };
 
@@ -80,6 +80,7 @@ export function Scene({
         onClose={() => setIsModalOpen(false)}
         scene={sceneDetails}
         onUpdate={handleUpdate}
+        mode="edit"
       />
       <div
         ref={setNodeRef}
