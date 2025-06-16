@@ -1,9 +1,11 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { useDroppable } from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 
 import { cn } from '../../../utils/cn';
 import { type ColumnProps } from './@types';
 
-export function Column({ id, step, label, count, children }: ColumnProps) {
+export function Column({ id, step, label, scenes, count, children }: ColumnProps) {
   const { setNodeRef, active } = useDroppable({
     id,
     data: {
@@ -45,7 +47,9 @@ export function Column({ id, step, label, count, children }: ColumnProps) {
       </div>
 
       <div className='flex flex-col gap-2 p-2 min-h-[200px] rounded-lg border border-border bg-background/50 overflow-auto'>
-        {children}
+        <SortableContext items={scenes.map((s) => s.id)} strategy={verticalListSortingStrategy}>
+          {children}
+        </SortableContext>
       </div>
     </div>
   );

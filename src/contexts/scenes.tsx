@@ -9,6 +9,7 @@ interface ScenesContextType {
   fetchScenes: () => Promise<void>;
   updateScene: (scene: Scene) => void;
   createScene: (scene: Scene) => Promise<void>;
+  reorderScenes: (step: number, activeId: string, overId: string) => void;
 }
 
 const ScenesContext = createContext<ScenesContextType | undefined>(undefined);
@@ -33,6 +34,10 @@ function ScenesProvider({ children }: { children: ReactNode }) {
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
+  };
+
+  const reorderScenes = (step: number, activeId: string, overId: string) => {
+    dispatch({ type: 'REORDER_SCENES', payload: { step, activeId, overId } });
   };
 
   const createScene = async (scene: Scene) => {
@@ -65,12 +70,13 @@ function ScenesProvider({ children }: { children: ReactNode }) {
   return (
     <ScenesContext.Provider
       value={{
-        scenes: state.scenes,
-        loading: state.loading,
-        error: state.error,
         fetchScenes,
         createScene,
         updateScene,
+        reorderScenes,
+        error: state.error,
+        scenes: state.scenes,
+        loading: state.loading,
       }}
     >
       {children}

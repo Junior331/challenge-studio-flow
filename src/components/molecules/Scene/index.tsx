@@ -1,8 +1,10 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { useMemo, useState } from 'react';
 
-import { useDraggable } from '@dnd-kit/core';
+import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
+import { cn } from '../../../lib/utils';
 import { type Scene as SceneType } from '../../../reducers/scenes';
 import { Modal } from '../Modal';
 import { type SceneProps } from './@types';
@@ -14,6 +16,7 @@ const heavyComputation = (text: string) => {
 export function Scene({
   id,
   step,
+  order,
   title,
   episode,
   onUpdate,
@@ -32,19 +35,25 @@ export function Scene({
     return heavyComputation(description);
   }, [description]);
 
-  const { attributes, listeners, setNodeRef, transform, active } = useDraggable({
-    id,
-    attributes: { role: 'button' },
-    data: {
-      step,
-      title,
-      episode,
-      columnId,
-      recordDate,
-      description,
-      recordLocation,
-    },
-  });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging, active } =
+    useSortable({
+      id,
+      attributes: { role: 'button' },
+      data: {
+        step,
+        title,
+        episode,
+        columnId,
+        recordDate,
+        description,
+        recordLocation,
+      },
+    });
+
+  const style = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+  };
 
   const sceneDetails: SceneType = {
     id,
@@ -55,6 +64,7 @@ export function Scene({
     columnId,
     recordDate,
     recordLocation,
+    order,
   };
 
   const handleUpdate = (updatedScene: SceneType) => {
@@ -67,9 +77,14 @@ export function Scene({
     return (
       <div
         ref={setNodeRef}
-        {...listeners}
+        style={style}
         {...attributes}
-        className='flex flex-col gap-2 p-2 cursor-pointer bg-primary opacity-50 text-accent rounded-lg border border-border'
+        {...listeners}
+        onClick={() => setIsModalOpen(true)}
+        className={cn(
+          'flex flex-col gap-2 p-2 cursor-pointer bg-primary text-accent rounded-lg border border-border',
+          isDragging && 'opacity-50',
+        )}
       >
         <div className='flex flex-col gap-1'>
           <span className='text-sm font-medium'>{computedTitle}</span>
