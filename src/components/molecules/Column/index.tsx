@@ -37,9 +37,9 @@ export function Column({ id, step, label, scenes, count, children }: ColumnProps
     <div
       ref={setNodeRef}
       className={cn(
-        'flex flex-col gap-1 p-1.5 bg-secondary rounded-lg border border-border w-72 min-w-[16rem] max-w-xs h-fit transition-all duration-200',
+        'flex flex-col gap-1 p-1.5 bg-secondary rounded-lg border border-border w-72 min-w-[16rem] max-w-xs h-fit transition-all duration-100',
         isNextStep || active?.data.current?.step === step
-          ? 'border-primary bg-primary/5 scale-[1.02]'
+          ? 'border-primary bg-primary/5'
           : 'opacity-40 cursor-not-allowed',
       )}
     >

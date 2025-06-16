@@ -41,26 +41,29 @@
   "scenes": [
     {
       "id": "1",
-      "order": 0,
-      "step": 1,
+      "title": "A Chegada 2",
+      "description": "João chega à cidade em busca de uma nova vida",
+      "step": 2,
       "episode": "1",
-      "title": "A Chegada",
       "columnId": "column-1",
-      "recordDate": "2000-03-15",
+      "recordDate": "2026-03-15",
       "recordLocation": "Estúdio Central",
-      "updatedAt": "2025-06-05T23:23:13.281Z",
-      "description": "João chega à cidade em busca de uma nova vida"
+      "order": 20,
+      "updatedAt": "2025-06-16T16:26:31.504Z",
+      "version": 0.02944438360700985
     },
     {
       "id": "2",
-      "order": 1,
+      "title": "O Encontro",
+      "description": "João conhece Maria na praça da cidade",
       "step": 2,
       "episode": "1",
-      "title": "O Encontro",
       "columnId": "column-2",
-      "recordDate": "2024-03-20",
+      "recordDate": "2026-03-20",
       "recordLocation": "Praça Central",
-      "description": "João conhece Maria na praça da cidade"
+      "order": 0,
+      "updatedAt": "2025-06-16T16:53:24.715Z",
+      "version": 0.7785685823061549
     },
     {
       "id": "3",
@@ -97,14 +100,16 @@
     },
     {
       "id": "6",
-      "order": 5,
-      "step": 1,
+      "order": 21,
+      "step": 2,
       "episode": "2",
       "title": "Novos Horizontes",
       "columnId": "column-6",
       "recordDate": "2024-04-10",
       "recordLocation": "Estúdio Central",
-      "description": "Maria apresenta João a novos amigos"
+      "description": "Maria apresenta João a novos amigos",
+      "updatedAt": "2025-06-16T16:26:37.455Z",
+      "version": 0.971949121331033
     },
     {
       "id": "7",
@@ -152,14 +157,16 @@
     },
     {
       "id": "11",
-      "order": 10,
-      "step": 1,
+      "order": 22,
+      "step": 2,
       "episode": "3",
       "title": "A Mudança",
       "columnId": "column-11",
       "recordDate": "2024-05-05",
       "recordLocation": "Estúdio Central",
-      "description": "João decide mudar de cidade"
+      "description": "João decide mudar de cidade",
+      "updatedAt": "2025-06-16T16:26:47.742Z",
+      "version": 0.1521792912180978
     },
     {
       "id": "12",
@@ -1139,6 +1146,39 @@
       "recordDate": "2025-07-30",
       "recordLocation": "Auditório",
       "description": "Celebrando a vitória"
+    },
+    {
+      "id": "101",
+      "step": 1,
+      "episode": "1",
+      "description": "",
+      "title": "Nova Cena",
+      "recordLocation": "",
+      "columnId": "column-1",
+      "order": 100,
+      "recordDate": "2025-06-16"
+    },
+    {
+      "id": "102",
+      "step": 1,
+      "episode": "1",
+      "description": "",
+      "title": "Nova Cena",
+      "recordLocation": "",
+      "columnId": "column-1",
+      "order": 101,
+      "recordDate": "2025-06-16"
+    },
+    {
+      "id": "103",
+      "step": 1,
+      "episode": "1",
+      "description": "",
+      "title": "Nova Cena",
+      "recordLocation": "",
+      "columnId": "column-1",
+      "order": 102,
+      "recordDate": "2025-06-16"
     }
   ]
 }
