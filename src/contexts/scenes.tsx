@@ -1,105 +1,79 @@
+/* eslint-disable import/group-exports */
 import { type ReactNode, createContext, useContext, useEffect, useReducer } from 'react';
 
-import { type Scene, initialSceneState, sceneReducer } from '../reducers/scenes';
+import { initialSceneState, sceneReducer } from '../reducers/scenes';
+import { api } from '../services/api';
+import { type Scene, type SceneState } from '../types/scene';
 
-interface ScenesContextType {
-  scenes: Scene[];
-  loading: boolean;
-  error: string | null;
+interface ScenesContextType extends SceneState {
   fetchScenes: () => Promise<void>;
-  updateScene: (scene: Scene) => void;
+  updateScene: (scene: Scene) => Promise<void>;
   createScene: (scene: Scene, scenes: Scene[]) => Promise<void>;
   reorderScenes: (step: number, activeId: string, overId: string) => void;
 }
 
 const ScenesContext = createContext<ScenesContextType | undefined>(undefined);
 
-function ScenesProvider({ children }: { children: ReactNode }) {
+export function ScenesProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(sceneReducer, initialSceneState);
 
   const fetchScenes = async () => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
-
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/scenes`);
-      if (!response.ok) throw new Error('Failed to fetch scenes');
-
-      const data = await response.json();
-      dispatch({ type: 'SET_SCENES', payload: data });
-    } catch (err) {
+      const scenes = await api.scenes.getAll();
+      dispatch({ type: 'SET_SCENES', payload: scenes });
+    } catch (error) {
       dispatch({
         type: 'SET_ERROR',
-        payload: err instanceof Error ? err.message : 'Unknown error',
+        payload: error instanceof Error ? error.message : 'Unknown error',
       });
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
   };
 
-  const reorderScenes = (step: number, activeId: string, overId: string) => {
-    if (!activeId || !overId || activeId === overId) {
-      return;
+  const updateScene = async (scene: Scene) => {
+    try {
+      const updatedScene = await api.scenes.update(scene);
+      dispatch({ type: 'UPDATE_SCENE', payload: updatedScene });
+    } catch (error) {
+      dispatch({
+        type: 'SET_ERROR',
+        payload: error instanceof Error ? error.message : 'Failed to update scene',
+      });
+      throw error;
     }
+  };
+
+  const createScene = async (scene: Scene, scenes: Scene[]) => {
+    try {
+      const body = {
+        ...scene,
+        order: scenes?.length ?? 0,
+        id: (scenes.length + 1).toString(),
+      };
+
+      const newScene = await api.scenes.create(body);
+      dispatch({ type: 'CREATE_SCENE', payload: newScene });
+    } catch (error) {
+      dispatch({
+        type: 'SET_ERROR',
+        payload: error instanceof Error ? error.message : 'Failed to create scene',
+      });
+      throw error;
+    }
+  };
+
+  const reorderScenes = (step: number, activeId: string, overId: string) => {
+    if (!activeId || !overId || activeId === overId) return;
 
     const scenesInStep = state.scenes.filter((s) => s.step === step);
     const activeExists = scenesInStep.some((s) => s.id === activeId);
     const overExists = scenesInStep.some((s) => s.id === overId);
 
-    if (!activeExists || !overExists) {
-      return;
-    }
+    if (!activeExists || !overExists) return;
 
     dispatch({ type: 'REORDER_SCENES', payload: { step, activeId, overId } });
-  };
-
-  const createScene = async (scene: Scene, scenes: Scene[]) => {
-    try {
-      const newScene = {
-        ...scene,
-        id: (scenes.length + 1).toString(),
-        order: scenes?.length ?? 0,
-      };
-
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/scenes`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newScene),
-      });
-
-      if (!response.ok) throw new Error('Falha ao criar cena');
-
-      dispatch({ type: 'UPDATE_SCENE', payload: scene });
-    } catch (err) {
-      dispatch({
-        type: 'SET_ERROR',
-        payload: err instanceof Error ? err.message : 'Erro desconhecido',
-      });
-    }
-  };
-
-  const updateScene = async (scene: Scene) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/scenes/${scene.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...scene,
-          updatedAt: new Date().toISOString(),
-          version: Math.random(),
-        }),
-      });
-
-      if (!response.ok) throw new Error('Falha ao atualizar cena');
-
-      dispatch({ type: 'UPDATE_SCENE', payload: scene });
-    } catch (err) {
-      dispatch({
-        type: 'SET_ERROR',
-        payload: err instanceof Error ? err.message : 'Erro desconhecido',
-      });
-    }
   };
 
   useEffect(() => {
@@ -109,13 +83,11 @@ function ScenesProvider({ children }: { children: ReactNode }) {
   return (
     <ScenesContext.Provider
       value={{
+        ...state,
         fetchScenes,
-        createScene,
         updateScene,
+        createScene,
         reorderScenes,
-        error: state.error,
-        scenes: state.scenes,
-        loading: state.loading,
       }}
     >
       {children}
@@ -123,13 +95,11 @@ function ScenesProvider({ children }: { children: ReactNode }) {
   );
 }
 
-function useScenes() {
+// eslint-disable-next-line react-refresh/only-export-components
+export function useScenes() {
   const context = useContext(ScenesContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useScenes must be used within a ScenesProvider');
   }
   return context;
 }
-
-// eslint-disable-next-line react-refresh/only-export-components
-export { useScenes, ScenesProvider };

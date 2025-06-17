@@ -1,106 +1,83 @@
+/* eslint-disable prettier/prettier */
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { arrayMove } from '@dnd-kit/sortable';
 
-/* eslint-disable indent */
-type Scene = {
-  id: string;
-  step: number;
-  order: number;
-  title: string;
-  episode: string;
-  columnId: string;
-  actors: string[];
-  recordDate: string;
-  description: string;
-  recordLocation: string;
-};
+import { type Scene, type SceneAction, type SceneState } from '../types/scene';
 
-type State = {
-  scenes: Scene[];
-  loading: boolean;
-  error: string | null;
-};
-
-const initialSceneState: State = {
+const initialSceneState: SceneState = {
   scenes: [],
   loading: false,
   error: null,
 };
 
-type Action =
-  | { type: 'SET_SCENES'; payload: Scene[] }
-  | { type: 'MOVE_SCENE'; payload: { id: string; toStep: number } }
-  | { type: 'SET_LOADING'; payload: boolean }
-  | { type: 'SET_ERROR'; payload: string | null }
-  | { type: 'UPDATE_SCENE'; payload: Scene }
-  | { type: 'REORDER_SCENES'; payload: { step: number; activeId: string; overId: string } };
-
-const sceneReducer = (state: State, action: Action): State => {
+const sceneReducer = (state: SceneState, action: SceneAction): SceneState => {
   switch (action.type) {
-    case 'SET_SCENES':
-      return { ...state, scenes: action.payload, error: null };
+  case 'SET_SCENES':
+    return { ...state, scenes: action.payload, error: null };
 
-    case 'MOVE_SCENE':
-      return {
-        ...state,
-        scenes: state.scenes.map((scene) =>
-          scene.id === action.payload.id ? { ...scene, step: action.payload.toStep } : scene,
-        ),
-      };
+  case 'MOVE_SCENE': {
+    const { id, toStep } = action.payload;
+    return {
+      ...state,
+      scenes: state.scenes.map((scene) => (scene.id === id ? { ...scene, step: toStep } : scene)),
+    };
+  }
 
-    case 'UPDATE_SCENE':
-      return {
-        ...state,
-        scenes: state.scenes.map((scene) =>
-          scene.id === action.payload.id ? { ...scene, ...action.payload } : scene,
-        ),
-      };
+  case 'UPDATE_SCENE': {
+    const { id } = action.payload;
+    return {
+      ...state,
+      scenes: state.scenes.map((scene) =>
+        scene.id === id ? { ...scene, ...action.payload } : scene,
+      ),
+    };
+  }
 
-    case 'REORDER_SCENES': {
-      const { step, activeId, overId } = action.payload;
+  case 'CREATE_SCENE': {
+    return {
+      ...state,
+      scenes: [...state.scenes, action.payload],
+    };
+  }
 
-      const scenesInStep = state.scenes
-        .filter((s) => s.step === step)
-        .sort((a, b) => a.order - b.order);
+  case 'REORDER_SCENES': {
+    const { step, activeId, overId } = action.payload;
 
-      const activeIndex = scenesInStep.findIndex((s) => s.id === activeId);
-      const overIndex = scenesInStep.findIndex((s) => s.id === overId);
+    const scenesInStep = state.scenes
+      .filter((s) => s.step === step)
+      .sort((a, b) => a.order - b.order);
 
-      if (activeIndex === -1 || overIndex === -1) {
-        return state;
-      }
+    const activeIndex = scenesInStep.findIndex((s) => s.id === activeId);
+    const overIndex = scenesInStep.findIndex((s) => s.id === overId);
 
-      if (activeIndex === overIndex) {
-        return state;
-      }
-
-      const reorderedScenesInStep = arrayMove(scenesInStep, activeIndex, overIndex);
-
-      const updatedScenesInStep = reorderedScenesInStep.map((scene, index) => ({
-        ...scene,
-        order: index,
-      }));
-
-      const newScenes = state.scenes.map((scene) => {
-        if (scene.step !== step) {
-          return scene;
-        }
-
-        const updatedScene = updatedScenesInStep.find((s) => s.id === scene.id);
-        return updatedScene || scene;
-      });
-      return { ...state, scenes: newScenes };
+    if (activeIndex === -1 || overIndex === -1 || activeIndex === overIndex) {
+      return state;
     }
 
-    case 'SET_LOADING':
-      return { ...state, loading: action.payload };
+    const reorderedScenesInStep = arrayMove(scenesInStep, activeIndex, overIndex);
+    const updatedScenesInStep = reorderedScenesInStep.map((scene, index) => ({
+      ...scene,
+      order: index,
+    }));
 
-    case 'SET_ERROR':
-      return { ...state, error: action.payload };
+    const newScenes = state.scenes.map((scene) => {
+      if (scene.step !== step) return scene;
+      const updatedScene = updatedScenesInStep.find((s) => s.id === scene.id);
+      return updatedScene || scene;
+    });
 
-    default:
-      return state;
+    return { ...state, scenes: newScenes };
+  }
+
+  case 'SET_LOADING':
+    return { ...state, loading: action.payload };
+
+  case 'SET_ERROR':
+    return { ...state, error: action.payload };
+
+  default:
+    return state;
   }
 };
 
-export { initialSceneState, sceneReducer, type Scene };
+export { type Scene, sceneReducer, initialSceneState };
