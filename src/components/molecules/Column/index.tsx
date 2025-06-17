@@ -17,7 +17,7 @@ export function Column({ id, step, label, scenes, count, children }: ColumnProps
     return (
       <div
         ref={setNodeRef}
-        className='flex flex-col gap-1 p-1.5 bg-secondary rounded-lg border border-border w-72 min-w-[16rem] max-w-xs h-fit max-h-[calc(100vh-210px)] '
+        className='flex flex-col gap-1 p-1.5 bg-secondary rounded-lg border border-border w-72 min-w-64 max-w-xs h-fit max-h-[calc(100vh-210px)] '
       >
         <div className='flex items-center justify-between'>
           <h3 className='text-sm font-medium text-foreground'>{label}</h3>

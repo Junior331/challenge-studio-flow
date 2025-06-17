@@ -1,6 +1,13 @@
+import { SearchIcon } from 'lucide-react';
+
 import { Input } from '../../atoms/Input';
 
-export function Header() {
+interface HeaderProps {
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
+}
+
+export function Header({ searchTerm, onSearchChange }: HeaderProps) {
   return (
     <header className='sticky top-0 z-50 flex items-center justify-between w-full gap-8 px-6 py-4 border-b border-border bg-background'>
       <div className='flex items-center gap-12'>
@@ -8,7 +15,15 @@ export function Header() {
       </div>
 
       <div className='flex items-center gap-2 grow justify-center max-w-xl'>
-        <Input placeholder='Pesquisar' className='grow' />
+        <div className='relative w-full max-w-xl'>
+          <SearchIcon className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
+          <Input
+            placeholder='Buscar cenas...'
+            value={searchTerm}
+            onChange={(e) => onSearchChange(e.target.value)}
+            className='pl-9 w-full'
+          />
+        </div>
       </div>
 
       <div className='flex items-center gap-2'>

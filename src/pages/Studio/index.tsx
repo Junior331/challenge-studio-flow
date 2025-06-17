@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 
 import {
   DndContext,
@@ -21,11 +22,16 @@ import { useProduction } from '../../hooks/useProduction';
 import { type Scene as SceneDetails } from '../../reducers/scenes';
 import { STEPS } from '../../utils/utils';
 
+interface OutletContext {
+  filteredScenes: SceneDetails[];
+}
+
 const Studio = () => {
   const { selectedProduction, productions, selectProduction, deselectProduction } = useProduction();
   const { loading, scenes, updateScene, reorderScenes, createScene } = useScenes();
   const [activeScene, setActiveScene] = useState<SceneProps | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const { filteredScenes } = useOutletContext<OutletContext>();
 
   useEffect(() => {
     // eslint-disable-next-line no-console
@@ -33,7 +39,7 @@ const Studio = () => {
   }, [scenes]);
 
   const scenesByStep = useMemo(() => {
-    return scenes.reduce(
+    return filteredScenes.reduce(
       (acc, scene) => {
         if (!acc[scene.step]) {
           acc[scene.step] = [];
@@ -43,7 +49,7 @@ const Studio = () => {
       },
       {} as Record<number, SceneDetails[]>,
     );
-  }, [scenes]);
+  }, [filteredScenes]);
 
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event;
