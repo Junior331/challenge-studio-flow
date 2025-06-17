@@ -1,8 +1,10 @@
-export interface Actor {
+interface Actor {
   id: string;
   name: string;
   bio: string;
   scenes: string[];
 }
 
-export type ActorFormData = Omit<Actor, 'id' | 'scenes'>;
+type ActorFormData = Omit<Actor, 'id' | 'scenes'>;
+
+export type { Actor, ActorFormData };

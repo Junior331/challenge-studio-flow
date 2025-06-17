@@ -33,12 +33,18 @@ export function Actors() {
 
   const handleSave = async (actorData: ActorFormData) => {
     try {
+      const newActor = {
+        ...actorData,
+        id: (actors.length + 1).toString(),
+        scenes: [],
+      };
+
       const response = await fetch('http://localhost:3001/actors', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...actorData, scenes: [] }),
+        body: JSON.stringify(newActor),
       });
       if (!response.ok) throw new Error('Failed to create actor');
       await fetchActors();
