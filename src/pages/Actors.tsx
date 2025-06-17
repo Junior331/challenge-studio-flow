@@ -5,6 +5,7 @@ import { Plus } from 'lucide-react';
 import { Button } from '../components/atoms';
 import { ActorModal } from '../components/organisms';
 import { useProduction } from '../hooks/useProduction';
+import { api } from '../services/api';
 import { type Actor, type ActorFormData } from '../types/actor';
 
 export function Actors() {
@@ -20,9 +21,7 @@ export function Actors() {
 
   const fetchActors = async () => {
     try {
-      const response = await fetch('http://localhost:3001/actors');
-      if (!response.ok) throw new Error('Failed to fetch actors');
-      const data = await response.json();
+      const data = (await api.actors.getAll()) as Actor[];
       setActors(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -35,18 +34,11 @@ export function Actors() {
     try {
       const newActor = {
         ...actorData,
-        id: (actors.length + 1).toString(),
+        id: actors.length.toString(),
         scenes: [],
       };
 
-      const response = await fetch('http://localhost:3001/actors', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newActor),
-      });
-      if (!response.ok) throw new Error('Failed to create actor');
+      await api.actors.create(newActor);
       await fetchActors();
       setIsModalOpen(false);
     } catch (err) {
@@ -75,11 +67,15 @@ export function Actors() {
         {actors.map((actor) => (
           <div
             key={actor.id}
-            className='border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow'
+            className='group relative border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow'
           >
-            <h2 className='text-xl font-semibold mb-2'>{actor.name}</h2>
-            <p className='text-gray-600 mb-2'>{actor.bio}</p>
-            <p className='text-sm text-gray-500'>Cenas: {actor.scenes.length}</p>
+            <div className='flex items-start justify-between gap-2'>
+              <div className='flex-1'>
+                <h2 className='text-xl font-semibold mb-2'>{actor.name}</h2>
+                <p className='text-gray-600 mb-2'>{actor.bio}</p>
+                <p className='text-sm text-gray-500'>Cenas: {actor.scenes.length}</p>
+              </div>
+            </div>
           </div>
         ))}
       </div>

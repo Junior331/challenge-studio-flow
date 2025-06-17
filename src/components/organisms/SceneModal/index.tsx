@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
+import { api } from '../../../services/api';
 import { type Actor } from '../../../types/actor';
 import { STEPS } from '../../../utils/utils';
 import { Button } from '../../atoms';
@@ -19,13 +20,11 @@ export function SceneModal({ isOpen, onClose, scene, onUpdate, mode = 'edit' }: 
 
   const fetchActors = async () => {
     try {
-      const response = await fetch('http://localhost:3001/actors');
-      if (!response.ok) throw new Error('Failed to fetch actors');
-      const data = await response.json();
+      const data = (await api.actors.getAll()) as Actor[];
       setActors(data);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Error fetching actors:', error);
+      const message = error instanceof Error ? error.message : 'Error fetching actors';
+      toast.error(message);
     }
   };
 
@@ -35,8 +34,8 @@ export function SceneModal({ isOpen, onClose, scene, onUpdate, mode = 'edit' }: 
       try {
         await fetchActors();
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error('Error loading actors:', error);
+        const message = error instanceof Error ? error.message : 'Error loading actors';
+        toast.error(message);
       } finally {
         setIsLoading(false);
       }
@@ -51,9 +50,6 @@ export function SceneModal({ isOpen, onClose, scene, onUpdate, mode = 'edit' }: 
     setIsSubmitting(true);
     try {
       await onUpdate(formData);
-      toast.success(
-        mode === 'create' ? 'Cena criada com sucesso!' : 'Cena atualizada com sucesso!',
-      );
       onClose();
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to save scene';

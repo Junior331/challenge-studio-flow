@@ -226,14 +226,17 @@
     },
     {
       "id": "16",
-      "order": 15,
+      "title": "Novos Planos",
+      "description": "O casal faz novos planos juntos",
       "step": 1,
       "episode": "4",
-      "title": "Novos Planos",
-      "columnId": "column-16",
       "recordDate": "2024-06-01",
       "recordLocation": "Café",
-      "description": "O casal faz novos planos juntos"
+      "columnId": "column-16",
+      "order": 15,
+      "actors": [
+        "1"
+      ]
     },
     {
       "id": "17",

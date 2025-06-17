@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast';
 
 import { useScenes } from '../contexts/scenes';
 import { api } from '../services/api';
+import { showErrorToast } from '../services/errorHandler';
 import { type Scene } from '../types/scene';
 
 export const useSceneOperations = () => {
@@ -16,8 +17,7 @@ export const useSceneOperations = () => {
         updateSceneContext(updatedScene);
         toast.success('Cena atualizada com sucesso!');
       } catch (error) {
-        const message = error instanceof Error ? error.message : 'Erro ao atualizar a cena';
-        toast.error(message);
+        showErrorToast(error);
         throw error;
       }
     },
@@ -31,8 +31,7 @@ export const useSceneOperations = () => {
         createSceneContext(newScene, scenes);
         toast.success('Cena criada com sucesso!');
       } catch (error) {
-        const message = error instanceof Error ? error.message : 'Erro ao criar a cena';
-        toast.error(message);
+        showErrorToast(error);
         throw error;
       }
     },
@@ -44,8 +43,7 @@ export const useSceneOperations = () => {
       await api.scenes.delete(sceneId);
       toast.success('Cena excluída com sucesso!');
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Erro ao excluir a cena';
-      toast.error(message);
+      showErrorToast(error);
       throw error;
     }
   }, []);
