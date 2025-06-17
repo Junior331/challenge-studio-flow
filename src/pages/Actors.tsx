@@ -46,7 +46,12 @@ export function Actors() {
     }
   };
 
-  if (isLoading) return <div className='p-4'>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className='flex justify-center items-center h-screen'>
+        <div className='animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500'></div>
+      </div>
+    );
   if (error) return <div className='p-4 text-red-500'>{error}</div>;
 
   return (
