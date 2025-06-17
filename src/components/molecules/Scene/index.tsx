@@ -1,14 +1,14 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 import { type Scene as SceneType } from '../../../reducers/scenes';
+import { type Actor } from '../../../types/actor';
 import { cn } from '../../../utils/cn';
 import { Modal } from '../Modal';
 import { type SceneProps } from './@types';
-import { type Actor } from '../../../types/actor';
 
 const heavyComputation = (text: string) => {
   return text.trim();
@@ -39,6 +39,7 @@ export function Scene({
         const filteredActors = allActors.filter((actor: Actor) => actors.includes(actor.id));
         setSceneActors(filteredActors);
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error('Error fetching actors:', error);
       }
     };
@@ -99,11 +100,12 @@ export function Scene({
   return (
     <div>
       <Modal
+        type='scene'
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         scene={sceneDetails}
         onUpdate={handleUpdate}
-        mode="edit"
+        mode='edit'
       />
       <div
         ref={setNodeRef}
@@ -122,10 +124,7 @@ export function Scene({
           {sceneActors.length > 0 && (
             <div className='mt-2 flex flex-wrap gap-1'>
               {sceneActors.map((actor) => (
-                <span
-                  key={actor.id}
-                  className='text-xs bg-accent/20 px-2 py-0.5 rounded-full'
-                >
+                <span key={actor.id} className='text-xs bg-accent/20 px-2 py-0.5 rounded-full'>
                   {actor.name}
                 </span>
               ))}

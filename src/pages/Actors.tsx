@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Plus } from 'lucide-react';
 
 import { Button } from '../components/atoms';
+import { Modal } from '../components/molecules/Modal';
 import { useProduction } from '../hooks/useProduction';
 import { type Actor, type ActorFormData } from '../types/actor';
 
@@ -12,7 +13,6 @@ export function Actors() {
   const [actors, setActors] = useState<Actor[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newActor, setNewActor] = useState<ActorFormData>({ name: '', bio: '' });
 
   useEffect(() => {
     fetchActors();
@@ -31,22 +31,20 @@ export function Actors() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSave = async (actorData: ActorFormData) => {
     try {
       const response = await fetch('http://localhost:3001/actors', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...newActor, scenes: [] }),
+        body: JSON.stringify({ ...actorData, scenes: [] }),
       });
       if (!response.ok) throw new Error('Failed to create actor');
       await fetchActors();
       setIsModalOpen(false);
-      setNewActor({ name: '', bio: '' });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      throw err instanceof Error ? err : new Error('An error occurred');
     }
   };
 
@@ -80,50 +78,13 @@ export function Actors() {
         ))}
       </div>
 
-      {isModalOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center'>
-          <div className='bg-background p-6 rounded-lg w-full max-w-md'>
-            <h2 className='text-xl font-bold mb-4'>Adicionar Novo Ator</h2>
-            <form onSubmit={handleSubmit}>
-              <div className='mb-4'>
-                <label className='block text-sm font-medium mb-1'>Nome</label>
-                <input
-                  type='text'
-                  value={newActor.name}
-                  onChange={(e) => setNewActor({ ...newActor, name: e.target.value })}
-                  className='w-full p-2 border rounded'
-                  required
-                />
-              </div>
-              <div className='mb-4'>
-                <label className='block text-sm font-medium mb-1'>Biografia</label>
-                <textarea
-                  value={newActor.bio}
-                  onChange={(e) => setNewActor({ ...newActor, bio: e.target.value })}
-                  className='w-full p-2 border rounded'
-                  rows={3}
-                  required
-                />
-              </div>
-              <div className='flex justify-end gap-2'>
-                <button
-                  type='button'
-                  onClick={() => setIsModalOpen(false)}
-                  className='px-4 py-2 border rounded hover:bg-gray-100'
-                >
-                  Cancelar
-                </button>
-                <button
-                  type='submit'
-                  className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600'
-                >
-                  Salvar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <Modal
+        type='actor'
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSave}
+        mode='create'
+      />
     </div>
   );
 }

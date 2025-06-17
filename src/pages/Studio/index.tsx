@@ -178,6 +178,7 @@ const Studio = () => {
       </div>
 
       <Modal
+        type='scene'
         mode='create'
         scenes={scenes}
         isOpen={isCreateModalOpen}
