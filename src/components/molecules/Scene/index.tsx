@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 

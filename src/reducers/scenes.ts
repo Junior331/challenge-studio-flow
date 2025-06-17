@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { arrayMove } from '@dnd-kit/sortable';
 
 import { type Scene, type SceneAction, type SceneState } from '../types/scene';

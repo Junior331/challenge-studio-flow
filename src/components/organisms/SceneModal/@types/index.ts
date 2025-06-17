@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { z } from 'zod';
 
 import { type Scene } from '../../../../reducers/scenes';

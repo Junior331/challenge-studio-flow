@@ -1,4 +1,3 @@
-/* eslint-disable import/group-exports */
 import { type ReactNode, createContext, useContext, useEffect, useReducer } from 'react';
 
 import { initialSceneState, sceneReducer } from '../reducers/scenes';
@@ -95,7 +94,6 @@ export function ScenesProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export function useScenes() {
   const context = useContext(ScenesContext);
   if (!context) {

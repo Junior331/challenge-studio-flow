@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable import/group-exports */
 import { toast } from 'react-hot-toast';
 
 export class AppError extends Error {

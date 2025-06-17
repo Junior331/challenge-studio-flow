@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { useCallback } from 'react';
 import { toast } from 'react-hot-toast';
 

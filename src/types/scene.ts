@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { z } from 'zod';
 
 const sceneSchema = z.object({

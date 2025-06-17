@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Toaster } from 'react-hot-toast';
 
 export function Toast() {

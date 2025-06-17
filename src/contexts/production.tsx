@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { type ReactNode, createContext, useEffect, useReducer } from 'react';
 
 interface Production {
@@ -47,7 +46,6 @@ const loadState = (): ProductionState => {
       };
     }
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Error loading production state:', error);
   }
   return {
