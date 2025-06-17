@@ -2,11 +2,12 @@ import { type Scene } from '../../../../reducers/scenes';
 
 type SceneDetails = Scene;
 
-interface ModalProps {
+interface BaseModalProps {
+  title: string;
   isOpen: boolean;
   onClose: () => void;
-  scene?: SceneDetails;
-  onUpdate?: (scene: SceneDetails) => void;
+  children: React.ReactNode;
+  maxWidth?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
-export type { SceneDetails, ModalProps };
+export type { SceneDetails, BaseModalProps };

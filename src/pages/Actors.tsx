@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Plus } from 'lucide-react';
 
 import { Button } from '../components/atoms';
-import { Modal } from '../components/molecules/Modal';
+import { ActorModal } from '../components/organisms';
 import { useProduction } from '../hooks/useProduction';
 import { type Actor, type ActorFormData } from '../types/actor';
 
@@ -84,8 +84,7 @@ export function Actors() {
         ))}
       </div>
 
-      <Modal
-        type='actor'
+      <ActorModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSave={handleSave}

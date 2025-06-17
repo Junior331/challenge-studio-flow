@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 
 import {
@@ -15,8 +15,9 @@ import {
 import { ArrowLeftIcon, PlayIcon, Plus } from 'lucide-react';
 
 import { Button, Title } from '../../components/atoms';
-import { Card, Column, Modal, Scene } from '../../components/molecules';
+import { Card, Column, Scene } from '../../components/molecules';
 import { type SceneProps } from '../../components/molecules/Scene/@types';
+import { SceneModal } from '../../components/organisms';
 import { useScenes } from '../../contexts/scenes';
 import { useProduction } from '../../hooks/useProduction';
 import { type Scene as SceneDetails } from '../../reducers/scenes';
@@ -32,11 +33,6 @@ const Studio = () => {
   const [activeScene, setActiveScene] = useState<SceneProps | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const { filteredScenes } = useOutletContext<OutletContext>();
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('Scenes updated:', scenes);
-  }, [scenes]);
 
   const scenesByStep = useMemo(() => {
     return filteredScenes.reduce(
@@ -111,7 +107,7 @@ const Studio = () => {
 
   const handleCreateScene = async (newScene: SceneDetails) => {
     if (!selectedProduction) return;
-    await createScene(newScene);
+    await createScene(newScene, scenes);
     setIsCreateModalOpen(false);
   };
 
@@ -177,8 +173,7 @@ const Studio = () => {
         </Button>
       </div>
 
-      <Modal
-        type='scene'
+      <SceneModal
         mode='create'
         scenes={scenes}
         isOpen={isCreateModalOpen}

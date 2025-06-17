@@ -122,17 +122,17 @@
     },
     {
       "id": "7",
-      "title": "O Projeto",
+      "title": "O Projeto 2",
       "description": "João e Maria começam um projeto juntos",
       "step": 2,
       "episode": "2",
-      "columnId": "column-7",
       "recordDate": "2029-04-15",
       "recordLocation": "Sala de Reuniões",
+      "columnId": "column-7",
       "order": 6,
       "actors": [],
-      "updatedAt": "2025-06-17T01:48:18.112Z",
-      "version": 0.5135210017767712
+      "updatedAt": "2025-06-17T03:16:30.519Z",
+      "version": 0.7616206455723247
     },
     {
       "id": "8",
@@ -1158,29 +1158,6 @@
       "recordDate": "2025-07-30",
       "recordLocation": "Auditório",
       "description": "Celebrando a vitória"
-    },
-    {
-      "id": "100",
-      "title": "Jaja teste 123",
-      "description": "Descrição teste ",
-      "step": 1,
-      "episode": "2",
-      "recordDate": "2026-06-16",
-      "recordLocation": "Casaa",
-      "columnId": "column-1",
-      "order": 100
-    },
-    {
-      "id": "101",
-      "title": "k;sddjldkf",
-      "description": "fsddfsdfsd",
-      "step": 1,
-      "episode": "3",
-      "recordDate": "2025-06-17",
-      "recordLocation": "sdaaafd",
-      "columnId": "column-1",
-      "order": 101,
-      "actors": []
     }
   ]
 }

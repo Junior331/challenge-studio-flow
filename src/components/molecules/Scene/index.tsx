@@ -7,7 +7,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { type Scene as SceneType } from '../../../reducers/scenes';
 import { type Actor } from '../../../types/actor';
 import { cn } from '../../../utils/cn';
-import { Modal } from '../Modal';
+import { SceneModal } from '../../organisms';
 import { type SceneProps } from './@types';
 
 const heavyComputation = (text: string) => {
@@ -99,8 +99,7 @@ export function Scene({
 
   return (
     <div>
-      <Modal
-        type='scene'
+      <SceneModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         scene={sceneDetails}

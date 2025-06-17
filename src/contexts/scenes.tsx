@@ -8,7 +8,7 @@ interface ScenesContextType {
   error: string | null;
   fetchScenes: () => Promise<void>;
   updateScene: (scene: Scene) => void;
-  createScene: (scene: Scene) => Promise<void>;
+  createScene: (scene: Scene, scenes: Scene[]) => Promise<void>;
   reorderScenes: (step: number, activeId: string, overId: string) => void;
 }
 
@@ -52,12 +52,18 @@ function ScenesProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'REORDER_SCENES', payload: { step, activeId, overId } });
   };
 
-  const createScene = async (scene: Scene) => {
+  const createScene = async (scene: Scene, scenes: Scene[]) => {
     try {
+      const newScene = {
+        ...scene,
+        id: (scenes.length + 1).toString(),
+        order: scenes?.length ?? 0,
+      };
+
       const response = await fetch(`${import.meta.env.VITE_API_URL}/scenes`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(scene),
+        body: JSON.stringify(newScene),
       });
 
       if (!response.ok) throw new Error('Falha ao criar cena');
