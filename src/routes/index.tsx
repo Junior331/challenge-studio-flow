@@ -2,6 +2,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { Layout } from '../components/templates';
 import Studio from '../pages/Studio';
+import { Actors } from '../pages/Actors';
 
 const router = createBrowserRouter([
   {
@@ -10,6 +11,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Studio />,
+      },
+      {
+        path: '/actors',
+        element: <Actors />,
       },
     ],
   },

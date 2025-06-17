@@ -178,11 +178,11 @@ const Studio = () => {
       </div>
 
       <Modal
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-        onUpdate={handleCreateScene}
         mode='create'
         scenes={scenes}
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onUpdate={(newScene) => handleCreateScene(newScene)}
       />
 
       <div className='flex gap-4 overflow-x-auto w-full h-full pr-2'>

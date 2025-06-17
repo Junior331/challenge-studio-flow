@@ -3,8 +3,10 @@ import { Fragment, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react';
-import { XIcon } from 'lucide-react';
+import { Check, ChevronsUpDown, X } from 'lucide-react';
 
+import { type Actor } from '../../../types/actor';
+import { cn } from '../../../utils/cn';
 import { STEPS } from '../../../utils/utils';
 import { type ModalProps, type SceneDetails } from './@types';
 
@@ -12,6 +14,26 @@ export function Modal({ isOpen, onClose, scene, scenes, onUpdate, mode = 'edit' 
   const [editedScene, setEditedScene] = useState<SceneDetails | undefined>(scene);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [actors, setActors] = useState<Actor[]>([]);
+  const [selectedActors, setSelectedActors] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isOpenActors, setIsOpenActors] = useState(false);
+
+  useEffect(() => {
+    const fetchActors = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/actors');
+        if (!response.ok) throw new Error('Failed to fetch actors');
+        const data = await response.json();
+        setActors(data);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Error fetching actors:', error);
+      }
+    };
+
+    fetchActors();
+  }, []);
 
   useEffect(() => {
     if (mode === 'create') {
@@ -25,9 +47,12 @@ export function Modal({ isOpen, onClose, scene, scenes, onUpdate, mode = 'edit' 
         recordLocation: '',
         columnId: 'column-1',
         order: scenes?.length ?? 0,
+        actors: [],
       });
+      setSelectedActors([]);
     } else {
       setEditedScene(scene);
+      setSelectedActors(scene?.actors || []);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scene, mode]);
@@ -37,7 +62,7 @@ export function Modal({ isOpen, onClose, scene, scenes, onUpdate, mode = 'edit' 
     ([step]) => Number(step) === scene?.step || Number(step) === nextStep,
   );
 
-  const handleChange = (field: keyof SceneDetails, value: string | number) => {
+  const handleChange = (field: keyof SceneDetails, value: string | number | string[]) => {
     if (!editedScene) return;
     setError(null);
 
@@ -49,6 +74,10 @@ export function Modal({ isOpen, onClose, scene, scenes, onUpdate, mode = 'edit' 
         setError('Só é possível avançar para o próximo status');
         return;
       }
+    }
+
+    if (field === 'actors') {
+      setSelectedActors(value as string[]);
     }
 
     setEditedScene({ ...editedScene, [field]: value });
@@ -91,7 +120,11 @@ export function Modal({ isOpen, onClose, scene, scenes, onUpdate, mode = 'edit' 
     setIsSaving(true);
 
     try {
-      await onUpdate(editedScene);
+      const updatedScene = {
+        ...editedScene,
+        actors: selectedActors,
+      };
+      await onUpdate(updatedScene);
       toast.success(
         mode === 'create' ? 'Cena criada com sucesso!' : 'Cena atualizada com sucesso!',
       );
@@ -104,6 +137,14 @@ export function Modal({ isOpen, onClose, scene, scenes, onUpdate, mode = 'edit' 
       setIsSaving(false);
     }
   };
+
+  const filteredActors = actors.filter(
+    (actor) =>
+      actor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      actor.bio.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
+  const selectedActorsData = actors.filter((actor) => selectedActors.includes(actor.id));
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -131,7 +172,7 @@ export function Modal({ isOpen, onClose, scene, scenes, onUpdate, mode = 'edit' 
               leaveFrom='opacity-100 scale-100'
               leaveTo='opacity-0 scale-95'
             >
-              <DialogPanel className='w-full max-w-md transform overflow-hidden rounded-2xl bg-background p-6 text-left align-middle shadow-xl transition-all'>
+              <DialogPanel className='w-full max-w-md transform overflow-auto rounded-2xl bg-background p-6 text-left align-middle shadow-xl transition-all'>
                 <div className='flex items-center justify-between mb-4'>
                   <DialogTitle as='h3' className='text-lg font-medium leading-6 text-primary'>
                     {mode === 'create' ? 'Criar Nova Cena' : 'Detalhes da Cena'}
@@ -140,7 +181,7 @@ export function Modal({ isOpen, onClose, scene, scenes, onUpdate, mode = 'edit' 
                     onClick={onClose}
                     className='rounded-full p-1 hover:bg-primary/10 transition-colors'
                   >
-                    <XIcon className='h-5 w-5 text-primary' />
+                    <X className='h-5 w-5 text-primary' />
                   </button>
                 </div>
 
@@ -224,6 +265,87 @@ export function Modal({ isOpen, onClose, scene, scenes, onUpdate, mode = 'edit' 
                         onChange={(e) => handleChange('recordLocation', e.target.value)}
                         className='mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-primary focus:outline-none focus:ring-2 focus:ring-primary/50'
                       />
+                    </div>
+
+                    <div>
+                      <h4 className='text-sm font-medium text-primary/70'>Atores</h4>
+                      <div className='relative mt-1'>
+                        <div className='flex flex-wrap gap-2 p-2 border rounded-md bg-background'>
+                          {selectedActorsData.map((actor) => (
+                            <div
+                              key={actor.id}
+                              className='flex items-center gap-1 px-2 py-1 bg-primary/10 rounded-full text-sm'
+                            >
+                              <span>{actor.name}</span>
+                              <button
+                                type='button'
+                                onClick={() => {
+                                  const newSelected = selectedActors.filter(
+                                    (id) => id !== actor.id,
+                                  );
+                                  handleChange('actors', newSelected);
+                                }}
+                                className='hover:text-destructive'
+                              >
+                                <X className='h-3 w-3' />
+                              </button>
+                            </div>
+                          ))}
+                          <button
+                            type='button'
+                            onClick={() => setIsOpenActors(!isOpenActors)}
+                            className='flex items-center gap-2 px-2 py-1 text-sm text-primary/70 hover:text-primary'
+                          >
+                            <span>Adicionar ator</span>
+                            <ChevronsUpDown className='h-4 w-4' />
+                          </button>
+                        </div>
+
+                        {isOpenActors && (
+                          <div className='absolute z-10 w-full mt-1 bg-background border rounded-md shadow-lg'>
+                            <div className='p-2 border-b'>
+                              <input
+                                type='text'
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                placeholder='Buscar atores...'
+                                className='w-full px-2 py-1 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50'
+                              />
+                            </div>
+                            <div className='max-h-48 overflow-y-auto'>
+                              {filteredActors.map((actor) => (
+                                <button
+                                  key={actor.id}
+                                  type='button'
+                                  onClick={() => {
+                                    const newSelected = selectedActors.includes(actor.id)
+                                      ? selectedActors.filter((id) => id !== actor.id)
+                                      : [...selectedActors, actor.id];
+                                    handleChange('actors', newSelected);
+                                  }}
+                                  className={cn(
+                                    'flex items-center gap-2 w-full px-4 py-2 text-sm hover:bg-primary/10',
+                                    selectedActors.includes(actor.id) && 'bg-primary/5',
+                                  )}
+                                >
+                                  <Check
+                                    className={cn(
+                                      'h-4 w-4',
+                                      selectedActors.includes(actor.id)
+                                        ? 'text-primary'
+                                        : 'text-transparent',
+                                    )}
+                                  />
+                                  <div className='flex flex-col items-start'>
+                                    <span>{actor.name}</span>
+                                    <span className='text-xs text-primary/50'>{actor.bio}</span>
+                                  </div>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     <div className='flex justify-end gap-2 mt-6'>

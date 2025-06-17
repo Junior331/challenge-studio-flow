@@ -10,6 +10,7 @@ interface SceneProps {
   recordDate: string;
   description: string;
   recordLocation: string;
+  actors?: string[];
   onUpdate?: (scene: SceneType) => void;
 }
 

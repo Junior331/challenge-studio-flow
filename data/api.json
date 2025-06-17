@@ -38,6 +38,14 @@
       "description": "Cenas finalizadas"
     }
   ],
+  "actors": [
+    {
+      "id": "1",
+      "name": "Jaja",
+      "bio": "Ator principal com experiência em teatro e TV",
+      "scenes": []
+    }
+  ],
   "scenes": [
     {
       "id": "1",
@@ -56,14 +64,15 @@
       "id": "2",
       "title": "O Encontro 2",
       "description": "João conhece Maria na praça da cidade",
-      "step": 2,
+      "step": 3,
       "episode": "1",
       "columnId": "column-2",
       "recordDate": "2026-03-20",
       "recordLocation": "Praça Central",
-      "order": 0,
-      "updatedAt": "2025-06-16T17:22:19.607Z",
-      "version": 0.10434207969147802
+      "order": 20,
+      "actors": [],
+      "updatedAt": "2025-06-17T02:05:47.821Z",
+      "version": 0.26566516779415716
     },
     {
       "id": "3",
@@ -113,14 +122,17 @@
     },
     {
       "id": "7",
-      "order": 6,
+      "title": "O Projeto",
+      "description": "João e Maria começam um projeto juntos",
       "step": 2,
       "episode": "2",
-      "title": "O Projeto",
       "columnId": "column-7",
-      "recordDate": "2024-04-15",
+      "recordDate": "2029-04-15",
       "recordLocation": "Sala de Reuniões",
-      "description": "João e Maria começam um projeto juntos"
+      "order": 6,
+      "actors": [],
+      "updatedAt": "2025-06-17T01:48:18.112Z",
+      "version": 0.5135210017767712
     },
     {
       "id": "8",
@@ -1157,6 +1169,18 @@
       "recordLocation": "Casaa",
       "columnId": "column-1",
       "order": 100
+    },
+    {
+      "id": "101",
+      "title": "k;sddjldkf",
+      "description": "fsddfsdfsd",
+      "step": 1,
+      "episode": "3",
+      "recordDate": "2025-06-17",
+      "recordLocation": "sdaaafd",
+      "columnId": "column-1",
+      "order": 101,
+      "actors": []
     }
   ]
 }

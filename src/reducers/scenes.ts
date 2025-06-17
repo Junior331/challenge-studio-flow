@@ -9,8 +9,9 @@ type Scene = {
   title: string;
   episode: string;
   columnId: string;
-  description: string;
+  actors: string[];
   recordDate: string;
+  description: string;
   recordLocation: string;
 };
 
